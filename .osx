@@ -4,6 +4,10 @@
 
 # see https://raw.github.com/addyosmani/dotfiles/master/.osx
 
+# Close any open System Preferences panes, to prevent them from overriding
+# settings we’re about to change
+osascript -e 'tell application "System Preferences" to quit'
+
 # Ask for the administrator password upfront
 sudo -v
 
@@ -13,6 +17,12 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 #-----------------------------------------------------------------------------#
 # General UI/UX                                                               #
 #-----------------------------------------------------------------------------#
+
+# Set computer name (as done via System Preferences → Sharing)
+sudo scutil --set ComputerName "bretth"
+#sudo scutil --set HostName "0x6D746873"
+sudo scutil --set LocalHostName "bretth.local"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "BRETTH-MAC"
 
 # Disable opening and closing window animations
 #defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false

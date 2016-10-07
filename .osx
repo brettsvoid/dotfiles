@@ -21,7 +21,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # Set computer name (as done via System Preferences → Sharing)
 sudo scutil --set ComputerName "bretth"
 #sudo scutil --set HostName "0x6D746873"
-sudo scutil --set LocalHostName "bretth.local"
+sudo scutil --set LocalHostName "bretth"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "BRETTH-MAC"
 
 # Disable opening and closing window animations

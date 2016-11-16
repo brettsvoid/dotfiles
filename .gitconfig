@@ -31,3 +31,6 @@
 
 [merge]
     log = true
+
+[alias]
+    tree = log --graph --decorate --pretty=oneline --abbrev-commit

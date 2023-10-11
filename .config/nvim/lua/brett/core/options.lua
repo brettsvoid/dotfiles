@@ -1,5 +1,8 @@
 local opt = vim.opt -- for conciseness
 
+-- enable the experimental loader to speed up startup times
+vim.loader.enable()
+
 -- line numbers
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)
 opt.relativenumber = true -- show relative line numbers
@@ -32,7 +35,7 @@ opt.isfname:append('@-@')
 opt.cursorline = true -- highlight the current cursor line
 
 -- updatetime
-opt.updatetime = 750 -- the length of time that vim waits before updating the swapfile
+opt.updatetime = 250 -- the length of time that vim waits before updating the swapfile
 
 -- Appearance --
 

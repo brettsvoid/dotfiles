@@ -3,6 +3,11 @@ return {
     dependencies = {
         'williamboman/mason-lspconfig.nvim',
     },
+   --opts = {
+   --    ensure_installed = {
+   --        'rust-analyzer',
+   --    },
+   --},
     config = function () 
         require('mason').setup({
             ui = {

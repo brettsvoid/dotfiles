@@ -18,6 +18,7 @@ keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
 keymap.set('n', 'Y', 'yg$')
 keymap.set('n', 'J', 'mzJ`z')
+-- when scrolling down/up keep cursor centered
 keymap.set('n', '<C-d>', '<C-d>zz')
 keymap.set('n', '<C-u>', '<C-u>zz')
 keymap.set('n', 'n', 'nzzzv')
@@ -34,8 +35,8 @@ keymap.set('v', '<leader>d', '"_d')
 
 keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
 keymap.set('n', '<leader>f', function () 
-    lsp.buf.format()
-end)
+    vim.lsp.buf.format({ async = true })
+end, { desc = 'LSP formatting' })
 
 keymap.set('n', '<C-k>', '<cmd>cnext<CR>zz')
 keymap.set('n', '<C-j>', '<cmd>cprev<CR>zz')

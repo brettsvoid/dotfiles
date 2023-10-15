@@ -1,9 +1,0 @@
-[init]
-defaultBranch = main
-
-[user]
-name = Brett Henderson
-email = BrettsVoid@gmail.com
-
-[includeIf "gitdir:~/work/projects/"]
-path = ~/.work.gitconfig

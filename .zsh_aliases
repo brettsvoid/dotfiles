@@ -1,4 +1,0 @@
-# folder locations
-alias -g p='cd ~/projects'
-alias -g wp='cd ~/work/projects'
-

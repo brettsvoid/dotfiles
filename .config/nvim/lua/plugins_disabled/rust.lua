@@ -1,12 +1,14 @@
 return {
-    'simrat39/rust-tools.nvim', 
+    'simrat39/rust-tools.nvim',
+    --'rust-lang/rust.vim',
     dependencies = {
         'neovim/nvim-lspconfig',
     },
     ft = 'rust',
-    config = function()
+    init = function()
         local rt = require('rust-tools')
 
+        --vim.g.rustfmt_autosave = 1
         rt.setup({
             server = {
                 on_attach = function(_, bufnr)

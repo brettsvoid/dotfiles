@@ -3,19 +3,17 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
 -- clear search highlighting
-vim.keymap.set('n', '<leader>nh', ':nohlsearch<CR>', { desc = 'Clear search highlights' })
+--vim.keymap.set('n', '<leader>nh', ':nohlsearch<CR>', { desc = 'Clear search highlights' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
 --vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 --vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
 
 -- run :Explore command
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
@@ -43,7 +41,7 @@ vim.keymap.set('v', '<leader>d', '"_d')
 
 vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
 vim.keymap.set('n', '<leader>f', function()
-  vim.lsp.buf.format({ async = true })
+  vim.lsp.buf.format { async = true }
 end, { desc = 'LSP formatting' })
 
 vim.keymap.set('n', '<C-k>', '<cmd>cnext<CR>zz')

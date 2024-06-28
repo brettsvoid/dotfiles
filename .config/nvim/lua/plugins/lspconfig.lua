@@ -133,7 +133,7 @@ return {
         -- This may be unwanted, since they displace some of your code
         if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
           map('<leader>th', function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {})
           end, '[T]oggle Inlay [H]ints')
         end
       end,
@@ -201,12 +201,13 @@ return {
     -- for you, so that they are available from within Neovim.
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
-      'stylua', -- Used to format Lua code
+      'stylua', -- lua formatter
+      'selene', -- lua linter
 
       'black', -- python formatter
       'pylint', -- python linter
 
-      'prettier_d', -- prettier formatter
+      'prettierd', -- prettier formatter
       'eslint_d', -- js linter
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -224,7 +225,7 @@ return {
       },
     }
 
-    -- local opts = { noremap = true, silent = true }
+    local opts = { noremap = true, silent = true }
     -- local on_attach = function(client, bufnr)
     --     opts.buffer = bufnr
 
@@ -232,8 +233,8 @@ return {
     --     opts.desc = "Show buffer diagnostics"
     --     keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 
-    --     opts.desc = "Show line diagnostics"
-    --     keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+    opts.desc = 'Show line diagnostics'
+    vim.keymap.set('n', '<leader>gl', vim.diagnostic.open_float, opts) -- show diagnostics for line
 
     --     opts.desc = "Go to previous diagnostic"
     --     keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer

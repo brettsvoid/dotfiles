@@ -187,6 +187,18 @@ return {
       emmet_ls = {
         filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less', 'svelte' },
       },
+
+      terraformls = {
+        filetypes = { 'terraform' },
+      },
+    }
+
+    -- Add these filestypes manually. Seems to fix terraform processing when creating a new file.
+    vim.filetype.add {
+      extension = {
+        tf = 'terraform',
+        tfvars = 'terraform',
+      },
     }
 
     -- Ensure the servers and tools above are installed

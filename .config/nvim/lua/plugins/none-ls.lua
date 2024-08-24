@@ -8,6 +8,7 @@ return {
 
     null_ls.setup {
       sources = {
+        null_ls.builtins.formatting.hclfmt,
         require 'none-ls.code_actions.eslint_d',
       },
     }

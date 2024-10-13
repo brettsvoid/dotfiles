@@ -1,6 +1,7 @@
 -- Highlight, edit, and navigate code
 return {
   'nvim-treesitter/nvim-treesitter',
+  -- dependencies = { 'nvim-treesitter/playground' },
   build = ':TSUpdate',
   opts = {
     ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },

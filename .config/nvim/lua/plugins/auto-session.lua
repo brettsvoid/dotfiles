@@ -1,3 +1,4 @@
+-- https://github.com/rmagatti/auto-session
 return {
   'rmagatti/auto-session',
   dependencies = {
@@ -12,9 +13,9 @@ return {
     { '<leader>wr', '<cmd>SessionRestore<CR>', desc = '[W]orkspace [R]estore' },
     { '<leader>wd', '<cmd>SessionDelete<CR>', desc = '[W]orkspace [D]elete' },
   },
-  config = function()
-    require('auto-session').setup {
-      auto_session_suppress_dirs = { '/', '~/', '~/projects', '~/work', '~/work/projects' },
-    }
-  end,
+  ---@module "auto-session"
+  ---@type AutoSession.Config
+  opts = {
+    suppressed_dirs = { '/', '~/', '~/projects', '~/work', '~/work/projects' },
+  },
 }

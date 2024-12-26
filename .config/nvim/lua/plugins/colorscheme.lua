@@ -1,7 +1,7 @@
 return {
   'catppuccin/nvim',
   name = 'catppuccin',
-  -- Make sure to load this before all the other start plugins
+  -- Make sure to load this before all the other plugins start
   priority = 1000,
   init = function()
     -- Load the colorscheme here.
@@ -24,17 +24,24 @@ return {
         shade = 'dark',
         percentage = 0.15, -- percentage of the shade to apply to the inactive window
       },
+      default_integrations = true,
+      -- TODO: move this to the respective plugin configurations
       integrations = {
+        cmp = true,
         gitsigns = true,
         nvimtree = true,
         telescope = true,
         treesitter = true,
         harpoon = true,
         mason = true,
+        mini = {
+          enabled = true,
+          indentscope_color = '',
+        },
       },
     }
 
     -- Setup must be called before loading.
-    vim.cmd.colorscheme 'catppuccin-macchiato'
+    vim.cmd.colorscheme 'catppuccin'
   end,
 }

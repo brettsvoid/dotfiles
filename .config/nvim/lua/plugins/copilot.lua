@@ -3,6 +3,7 @@ return {
   -- https://github.com/zbirenbaum/copilot.lua
   {
     'zbirenbaum/copilot.lua',
+    enabled = false,
     cmd = 'Copilot',
     event = 'InsertEnter',
     opts = {
@@ -12,8 +13,8 @@ return {
   },
   -- https://github.com/zbirenbaum/copilot-cmp
   -- This adds copilot suggestions to the autocompletion menu
-  {
-    'zbirenbaum/copilot-cmp',
-    config = true,
-  },
+  -- {
+  --   'zbirenbaum/copilot-cmp',
+  --   config = true,
+  -- },
 }

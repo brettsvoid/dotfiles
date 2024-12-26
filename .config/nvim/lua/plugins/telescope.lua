@@ -2,7 +2,7 @@
 return {
   'nvim-telescope/telescope.nvim',
   event = 'VimEnter',
-  branch = '0.1.x',
+  tag = '0.1.8',
   dependencies = {
     'nvim-lua/plenary.nvim',
     { -- If encountering errors, see telescope-fzf-native README for installation instructions
@@ -19,23 +19,81 @@ return {
       end,
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
-    { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+    --{ 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+    { 'echasnovski/mini.icons' },
     'nvim-treesitter/nvim-treesitter',
   },
   -- [[ Configure Telescope ]]
   -- See `:help telescope` and `:help telescope.setup()`
   opts = function()
+    local actions = require 'telescope.actions'
+    local action_state = require 'telescope.actions.state'
+    local builtin = require 'telescope.builtin'
     return {
       defaults = {
         mappings = {
           n = {
-            ['d'] = require('telescope.actions').delete_buffer,
-            ['<esc>'] = require('telescope.actions').close,
+            ['d'] = actions.delete_buffer,
+            ['<esc>'] = actions.close,
+          },
+          i = {
+            ['<C-p>'] = actions.cycle_history_prev,
+            ['<C-n>'] = actions.cycle_history_next,
+            ['<C-d>'] = function(prompt_bufnr)
+              local current_picker = action_state.get_current_picker(prompt_bufnr)
+
+              -- Retrieve the current search query from the prompt buffer.
+              local lines = vim.api.nvim_buf_get_lines(prompt_bufnr, 0, 1, false)
+              local prompt_text = lines[1] or ''
+
+              local prompt_prefix = current_picker.prompt_prefix
+              -- Strip the prompt prefix to get the actual search query.
+              if #prompt_text > #prompt_prefix then
+                prompt_text = prompt_text:sub(#prompt_prefix + 1)
+              else
+                prompt_text = ''
+              end
+
+              -- Close the current Telescope picker.
+              actions.close(prompt_bufnr)
+
+              -- Asynchronously prompt the user for a directory.
+              vim.ui.input({
+                prompt = 'Search in directory: ',
+                default = vim.fn.getcwd(),
+                completion = 'dir', -- Enables directory completion.
+              }, function(input)
+                -- Expand the input to handle relative paths.
+                local expanded_dir = vim.fn.expand(input)
+
+                if input and #input > 0 then
+                  -- Validate that the input is a directory.
+                  if vim.fn.isdirectory(expanded_dir) == 1 then
+                    -- Relaunch live_grep with the specified directory and previous search query.
+                    builtin.live_grep {
+                      search_dirs = { expanded_dir },
+                      default_text = prompt_text, -- Prepopulate with the previous search query.
+                    }
+                  else
+                    -- Notify the user about the invalid directory.
+                    vim.notify('Invalid directory: ' .. expanded_dir, vim.log.levels.ERROR)
+                  end
+                else
+                  -- Notify the user that no directory was selected.
+                  vim.notify('No directory selected. Staying in current picker.', vim.log.levels.INFO)
+                end
+
+                builtin.live_grep {
+                  default_text = prompt_text, -- Prepopulate with the previous search query.
+                }
+              end)
+            end,
           },
         },
       },
 
       extensions = {
+        fzf = {},
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
         },

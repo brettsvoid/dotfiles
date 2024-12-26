@@ -6,5 +6,5 @@ return {
   'christoomey/vim-tmux-navigator',
 
   -- replace with register contents using motion (gr + motion)
-  'inkarkat/vim-ReplaceWithRegister',
+  --'inkarkat/vim-ReplaceWithRegister',
 }

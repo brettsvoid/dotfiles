@@ -1,8 +1,3 @@
--- Set <space> as the leader key
--- See `:help mapleader`
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -44,7 +39,13 @@ vim.keymap.set('n', '<leader>f', function()
   vim.lsp.buf.format { async = true }
 end, { desc = 'LSP formatting' })
 
+-- quickfix and location list keymaps
 vim.keymap.set('n', '<C-k>', '<cmd>cnext<CR>zz')
 vim.keymap.set('n', '<C-j>', '<cmd>cprev<CR>zz')
 vim.keymap.set('n', '<leader>k', '<cmd>lnext<CR>zz')
 vim.keymap.set('n', '<leader>j', '<cmd>lprev<CR>zz')
+
+-- useful commands for sources/running lines in nvim lua config
+vim.keymap.set('n', '<leader>L', '<cmd>source %<CR>')
+vim.keymap.set('n', '<leader>l', ':.lua<CR>')
+vim.keymap.set('v', '<leader>l', ':lua<CR>')

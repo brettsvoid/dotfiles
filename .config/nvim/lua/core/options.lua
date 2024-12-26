@@ -27,7 +27,7 @@ vim.opt.wrap = false -- disable line wrapping
 
 -- backup and undo handling
 vim.opt.swapfile = false
-vim.opt.backup = false -- let undo tree handle undos
+vim.opt.backup = false -- set to false to let undo tree handle undos
 vim.opt.undodir = os.getenv 'HOME' .. '/.vim/undodir'
 vim.opt.undofile = true
 
@@ -36,7 +36,7 @@ vim.opt.ignorecase = true -- ignore case when searching
 vim.opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
 
 -- scroll settings
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 8
 vim.opt.isfname:append '@-@'
 
 -- cursor line
@@ -54,7 +54,8 @@ vim.opt.timeoutlen = 300
 vim.opt.inccommand = 'split'
 
 -- Appearance --
-vim.opt.hlsearch = true
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
 
 -- turn on termguicolors for 24-bit color
 vim.opt.termguicolors = true
@@ -79,3 +80,10 @@ vim.opt.splitright = true -- split vertical window to the right
 -- updatetime: set updatetime for CursorHold
 vim.opt.completeopt = { 'menuone', 'noselect', 'noinsert' }
 vim.opt.shortmess = vim.opt.shortmess + { c = true }
+
+-- When pressing `p`, clipboard will be pasted
+--vim.opt.clipboard = 'unnamedplus'
+
+-- Make sure sessionoptions contains localoptions so that filetype and highlighting work correctly after a session is restores
+-- Suggested by rmagatti/auto-session
+vim.opt.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'

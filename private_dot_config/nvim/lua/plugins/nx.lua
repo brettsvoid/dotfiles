@@ -1,9 +1,9 @@
 -- Check if a file exists in the project root
 local function file_exists_in_root(filename)
-  local path = vim.fn.expand '%:p:h'
-  local git_dir = vim.fn.finddir('.git', path)
-  local file_path = vim.fn.fnamemodify(git_dir, ':h') .. '/' .. filename
-  return vim.fn.filereadable(file_path) == 1
+	local path = vim.fn.expand("%:p:h")
+	local git_dir = vim.fn.finddir(".git", path)
+	local file_path = vim.fn.fnamemodify(git_dir, ":h") .. "/" .. filename
+	return vim.fn.filereadable(file_path) == 1
 end
 
 return {}

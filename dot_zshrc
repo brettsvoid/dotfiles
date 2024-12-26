@@ -122,6 +122,8 @@ source $ZSH/oh-my-zsh.sh
 # -------------------------
 # CUSTOM STUFF FROM HERE
 # -------------------------
+[ -f ~/.env_vars ] && source ~/.env_vars
+
 # Use nvim as default instead of vim
 alias vim="nvim"
 
@@ -261,6 +263,5 @@ alias vpn-status="aws ec2 describe-instances --profile algo-vpn --region ap-nort
 alias factorio-start="aws ec2 start-instances --profile factorio --region eu-west-1 --instance-ids i-026aeca5f45cfd94c"
 alias factorio-stop="aws ec2 stop-instances --profile factorio --region eu-west-1 --instance-ids i-026aeca5f45cfd94c"
 alias factorio-status="aws ec2 describe-instances --profile factorio --region eu-west-1 | jq '.Reservations[0].Instances[0].State'"
-
 
 

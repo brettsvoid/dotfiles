@@ -9,6 +9,7 @@ return {
 			"onsails/lspkind.nvim",
 		},
 		version = "*",
+		event = "InsertEnter",
 
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
@@ -28,15 +29,20 @@ return {
 
 				documentation = {
 					auto_show = true,
-					auto_show_delay_ms = 250,
+					auto_show_delay_ms = 200,
 					treesitter_highlighting = true,
 					window = { border = "rounded" },
 				},
 
 				list = {
-					selection = function(ctx)
-						return ctx.mode == "cmdline" and "auto_insert" or "preselect"
-					end,
+					selection = {
+						preselect = function(ctx)
+							return ctx.mode ~= "cmdline" and not require("blink.cmp").snippet_active({ direction = 1 })
+						end,
+						auto_insert = function(ctx)
+							return ctx.mode ~= "cmdline"
+						end,
+					},
 				},
 
 				menu = {
@@ -81,7 +87,6 @@ return {
 
 			keymap = {
 				preset = "default",
-				--
 			},
 
 			-- Experimental signature help support

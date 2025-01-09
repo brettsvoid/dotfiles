@@ -3,14 +3,17 @@ return { -- lspconfig
 		"neovim/nvim-lspconfig",
 		--enabled = false,
 		dependencies = {
-			--'mason.nvim',
+			"mason.nvim",
+			{ "williamboman/mason-lspconfig.nvim", config = function() end },
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 			"b0o/schemastore.nvim",
-			{ "williamboman/mason-lspconfig.nvim", config = function() end },
 
 			-- Useful status updates for LSP.
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
 			{ "j-hui/fidget.nvim", opts = {} },
+
+			"saghen/blink.cmp",
 		},
 		opts = function()
 			---@class PluginLspOpts
@@ -70,16 +73,16 @@ return { -- lspconfig
 				--    https://github.com/pmizio/typescript-tools.nvim
 				--
 				-- But for many setups, the LSP (`ts_ls`) will work just fine
-				ts_ls = {
-					filetypes = {
-						"javascript",
-						"javascriptreact",
-						"javascript.jsx",
-						"typescript",
-						"typescriptreact",
-						"typescript.tsx",
-					},
-				},
+				-- ts_ls = {
+				-- 	filetypes = {
+				-- 		"javascript",
+				-- 		"javascriptreact",
+				-- 		"javascript.jsx",
+				-- 		"typescript",
+				-- 		"typescriptreact",
+				-- 		"typescript.tsx",
+				-- 	},
+				-- },
 
 				-- Lua Language Server with custom settings
 				lua_ls = {
@@ -87,21 +90,6 @@ return { -- lspconfig
 						Lua = {
 							completion = {
 								callSnippet = "Replace",
-							},
-							-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-							-- diagnostics = { disable = { 'missing-fields' } },
-							runtime = {
-								version = "LuaJIT",
-							},
-							telemetry = {
-								enable = false,
-							},
-							workspace = {
-								checkThirdParty = false,
-								library = {
-									vim.env.VIMRUNTIME,
-									"$HOME/.config/wezterm",
-								},
 							},
 						},
 					},
@@ -171,50 +159,52 @@ return { -- lspconfig
 					local opts = { buffer = buffer, silent = true, noremap = true }
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 
-          -- Buffer-local Keybindings
-          -- Formatting is done by conform, no need to define vim.lsp.buf.format() here
-          -- stylua: ignore start
-          local buf_keymaps = {
-              -- Execute a code action, usually your cursor needs to be on top of an error
-              -- or a suggestion from your LSP for this to activate.
-              { "n", "gra",        "<cmd>lua vim.lsp.buf.code_action()<CR>",                "[C]odeAction" },
-              { "n", "<leader>q",  "<cmd>lua vim.diagnostic.setloclist()<CR>",              "Open diagnostics list" },
-              -- Opens a popup that displays documentation about the word under your cursor
-              --  See `:help K` for why this keymap.
-              { "n", "K",          "<cmd>lua vim.lsp.buf.hover()<CR>",                      "Hover Documentation" },
-              { "n", "]d",         "<cmd>lua vim.diagnostic.goto_next()<CR>",               "Go to next diagnostic" },
-              { "n", "[d",         "<cmd>lua vim.diagnostic.goto_prev()<CR>",               "Go to previous diagnostic" },
-              -- Rename the variable under your cursor.
-              --  Most Language Servers support renaming across files, etc.
-              { "n", "grn",        "<cmd>lua vim.lsp.buf.rename()<CR>",                     "[R]e[n]ame" },
-              -- WARN: This is not Goto Definition, this is Goto Declaration.
-              --  For example, in C this would take you to the header.
-              { "n", "gD",         "<cmd>lua vim.lsp.buf.declaration()<CR>",                "[G]oto [D]eclaration" },
-              { "n", "gcI",        "<cmd>lua vim.lsp.buf.incoming_calls()<CR>",             "Goto IncomingCalls" },
-              { "n", "gcO",        "<cmd>lua vim.lsp.buf.outgoing_calls()<CR>",             "Goto OutgoingCalls" },
-              -- Jump to the definition of the word under your cursor.
-              --  This is where a variable was first declared, or where a function is defined, etc.
-              --  To jump back, press <C-t>.
-              { "n", "gd",         "<cmd>lua vim.lsp.buf.definition()<CR>",                 "[G]oto [D]efinition" },
-              -- Jump to the implementation of the word under your cursor.
-              --  Useful when your language has ways of declaring types without an actual implementation.
-              { "n", "gri",        "<cmd>lua vim.lsp.buf.implementation()<CR>",             "[G]oto [I]mplementation" },
-              { "n", "<C-W>d",     "<cmd>lua vim.diagnostic.open_float()<CR>",              "Open floating diagnostic message" },
-              -- Jump to the type of the word under your cursor.
-              --  Useful when you're not sure what type a variable is and you want to see
-              --  the definition of its *type*, not where it was *defined*.
-              { "n", "<leader>D",  "<cmd>lua vim.lsp.buf.type_definition()<CR>",     "Goto Type [D]efinition" },
-              -- Find references for the word under your cursor.
-              { "n", "grr",        "<cmd>lua vim.lsp.buf.references()<CR>",                 "[G]oto [R]eferences" },
-              -- Show the signature of the function under your cursor
-              { "n", "<C-s>",      "<cmd>lua vim.lsp.buf.signature_help()<CR>",             "[S]ignature Help" },
-              -- Fuzzy find all the symbols in your current document.
-              --  Symbols are things like variables, functions, types, etc.
-              { "n", "gO",         "<cmd>lua vim.lsp.buf.document_symbols()<CR>",           "Document Symbols" },
-              -- Fuzzy find all the symbols in your current workspace.
-              --  Similar to document symbols, except searches over your entire project.
-              { "n", "<leader>sW", "<cmd>lua vim.lsp.buf.dynamic_workspace_symbols()<CR>",  "[W]orkspace [S]ymbols" },
-          }
+					-- Buffer-local Keybindings
+					-- Formatting is done by conform, no need to define vim.lsp.buf.format() here
+					-- stylua: ignore start
+					local buf_keymaps = {
+						-- Execute a code action, usually your cursor needs to be on top of an error
+						-- or a suggestion from your LSP for this to activate.
+						{ "n", "gra",        "<cmd>lua vim.lsp.buf.code_action()<CR>",                "[C]odeAction" },
+						{ "n", "<leader>q",  "<cmd>lua vim.diagnostic.setloclist()<CR>",              "Open diagnostics list" },
+						-- Opens a popup that displays documentation about the word under your cursor
+						--  See `:help K` for why this keymap.
+						{ "n", "K",          "<cmd>lua vim.lsp.buf.hover()<CR>",                      "Hover Documentation" },
+						{ "n", "]d",         "<cmd>lua vim.diagnostic.goto_next()<CR>",               "Go to next diagnostic" },
+						{ "n", "[d",         "<cmd>lua vim.diagnostic.goto_prev()<CR>",               "Go to previous diagnostic" },
+						-- Rename the variable under your cursor.
+						--  Most Language Servers support renaming across files, etc.
+						{ "n", "grn",        "<cmd>lua vim.lsp.buf.rename()<CR>",                     "[R]e[n]ame" },
+						-- WARN: This is not Goto Definition, this is Goto Declaration.
+						--  For example, in C this would take you to the header.
+						{ "n", "gD",         "<cmd>lua vim.lsp.buf.declaration()<CR>",                "[G]oto [D]eclaration" },
+						{ "n", "gcI",        "<cmd>lua vim.lsp.buf.incoming_calls()<CR>",             "Goto IncomingCalls" },
+						{ "n", "gcO",        "<cmd>lua vim.lsp.buf.outgoing_calls()<CR>",             "Goto OutgoingCalls" },
+						-- Jump to the definition of the word under your cursor.
+						--  This is where a variable was first declared, or where a function is defined, etc.
+						--  To jump back, press <C-t>.
+						{ "n", "gd",         "<cmd>lua vim.lsp.buf.definition()<CR>",                 "[G]oto [D]efinition" },
+						-- Jump to the implementation of the word under your cursor.
+						--  Useful when your language has ways of declaring types without an actual implementation.
+						{ "n", "gri",        "<cmd>lua vim.lsp.buf.implementation()<CR>",             "[G]oto [I]mplementation" },
+						{ "n", "<C-W>d",     "<cmd>lua vim.diagnostic.open_float()<CR>",              "Open floating diagnostic message" },
+						-- Jump to the type of the word under your cursor.
+						--  Useful when you're not sure what type a variable is and you want to see
+						--  the definition of its *type*, not where it was *defined*.
+						{ "n", "<leader>D",  "<cmd>lua vim.lsp.buf.type_definition()<CR>",     "Goto Type [D]efinition" },
+						-- Find references for the word under your cursor.
+						{ "n", "grr",        "<cmd>lua vim.lsp.buf.references()<CR>",                 "[G]oto [R]eferences" },
+						-- Show the signature of the function under your cursor
+						{ "n", "<C-s>",      "<cmd>lua vim.lsp.buf.signature_help()<CR>",             "[S]ignature Help" },
+						-- Fuzzy find all the symbols in your current document.
+						--  Symbols are things like variables, functions, types, etc.
+						{ "n", "gO",         "<cmd>lua vim.lsp.buf.document_symbols()<CR>",           "Document Symbols" },
+						-- Fuzzy find all the symbols in your current workspace.
+						--  Similar to document symbols, except searches over your entire project.
+						{ "n", "<leader>sW", "<cmd>lua vim.lsp.buf.dynamic_workspace_symbols()<CR>",  "[W]orkspace [S]ymbols" },
+
+						-- { "n", "<leader>gl", "<cmd>vim.diagnostic.open_float()<CR>",  "Show [l]ine diagnostics" },
+					}
 					-- stylua: ignore end
 
 					-- The following autocommand is used to enable inlay hints in your
@@ -318,67 +308,63 @@ return { -- lspconfig
 			})
 
 			-- Add border to the diagnostic popup window
-			-- vim.diagnostic.config {
-			--   virtual_text = {
-			--     prefix = '■ ', -- Could be '●', '▎', 'x', '■', , 
-			--   },
-			--   float = { border = border },
-			-- }
+			vim.diagnostic.config({
+				virtual_text = {
+					--prefix = "■ ", -- Could be '●', '▎', 'x', '■', , 
+				},
+				float = { border = border },
+			})
 
-			-- -- Ensure the servers and tools above are installed
-			-- --  To check the current status of installed tools and/or manually install
-			-- --  other tools, you can run
-			-- --    :Mason
-			-- --
-			-- --  You can press `g?` for help in this menu.
-			-- require('mason').setup()
+			-- Ensure the servers and tools above are installed
+			--  To check the current status of installed tools and/or manually install
+			--  other tools, you can run
+			--    :Mason
 			--
-			-- -- You can add other tools here that you want Mason to install
-			-- -- for you, so that they are available from within Neovim.
-			-- local ensure_installed = vim.tbl_keys(servers or {})
-			-- vim.list_extend(ensure_installed, {
-			--   'stylua', -- lua formatter
-			--   'selene', -- lua linter
-			--
-			--   'black', -- python formatter
-			--   'pylint', -- python linter
-			--
-			--   'prettierd', -- prettier formatter
-			--   'eslint_d', -- js linter
-			--
-			--   'dockerls', -- dockerfile language server
-			-- })
-			-- --require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-			--
-			--
-			-- local opts = { noremap = true, silent = true }
-			-- -- local on_attach = function(client, bufnr)
-			-- --     opts.buffer = bufnr
-			--
-			-- --     local keymap = vim.keymap -- for conciseness
-			-- --     opts.desc = "Show buffer diagnostics"
-			-- --     keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-			--
-			-- opts.desc = 'Show line diagnostics'
-			-- vim.keymap.set('n', '<leader>gl', vim.diagnostic.open_float, opts) -- show diagnostics for line
+			--  You can press `g?` for help in this menu.
+			require("mason").setup()
 
-			--     opts.desc = "Go to previous diagnostic"
-			--     keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+			-- You can add other tools here that you want Mason to install
+			-- for you, so that they are available from within Neovim.
+			local ensure_installed = vim.tbl_keys(servers or {})
+			vim.list_extend(ensure_installed, {
+				"stylua", -- lua formatter
+				"selene", -- lua linter
 
-			--     opts.desc = "Go to next diagnostic"
-			--     keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+				"black", -- python formatter
+				"pylint", -- python linter
 
-			--     opts.desc = "Restart LSP"
-			--     keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-			-- end
+				"prettierd", -- prettier formatter
+				"eslint_d", -- js linter
+
+				"dockerls", -- dockerfile language server
+			})
+			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
+			local on_attach = function(client, bufnr)
+				local keymap = vim.keymap -- for conciseness
+				opts.desc = "Show buffer diagnostics"
+				keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+
+				-- opts.desc = "Show line diagnostics"
+				-- vim.keymap.set("n", "<leader>gl", vim.diagnostic.open_float, opts) -- show diagnostics for line
+
+				--     opts.desc = "Go to previous diagnostic"
+				--     keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+
+				--     opts.desc = "Go to next diagnostic"
+				--     keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+
+				--     opts.desc = "Restart LSP"
+				--     keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+			end
 
 			-- Change the Diagnostic symbols in the sign column (gutter)
 			-- (not in youtube nvim video)
-			-- local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-			-- for type, icon in pairs(signs) do
-			--     local hl = "DiagnosticSign" .. type
-			--     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-			-- end
+			local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+			for type, icon in pairs(signs) do
+				local hl = "DiagnosticSign" .. type
+				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+			end
 		end,
 	},
 

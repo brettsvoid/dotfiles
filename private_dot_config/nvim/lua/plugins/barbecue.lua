@@ -7,7 +7,7 @@ return {
 		"SmiteshP/nvim-navic",
 		"echasnovski/mini.icons",
 	},
-	cmd = "Barbecue",
+	--cmd = "Barbecue",
 	opts = {
 		theme = "catppuccin",
 	},

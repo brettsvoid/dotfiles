@@ -3,11 +3,6 @@ return {
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
 	},
-	opts = {
-		preview = {
-			type = "floating",
-		},
-	}, -- for default options, refer to the configuration section for custom setup.
 	cmd = "Trouble",
 	keys = {
 		{
@@ -39,6 +34,11 @@ return {
 			"<leader>xq",
 			"<cmd>Trouble qflist toggle<cr>",
 			desc = "[Q]uickfix List (Trouble)",
+		},
+	},
+	opts = {
+		preview = {
+			type = "floating",
 		},
 	},
 }

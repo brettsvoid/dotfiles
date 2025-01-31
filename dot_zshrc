@@ -154,14 +154,14 @@ export REACT_EDITOR=vim
 # PATH mutations
 # -------------------------
 # Function to append a directory to PATH if it's not already included
-append_to_path() {
+function append_to_path() {
     if [[ ":$PATH:" != *":$1:"* ]]; then
         export PATH="$PATH:$1"
     fi
 }
 
 # Function to prepend a directory to PATH if it's not already included
-prepend_to_path() {
+function prepend_to_path() {
     if [[ ":$PATH:" != *":$1:"* ]]; then
         export PATH="$1:$PATH"
     fi
@@ -199,7 +199,10 @@ prepend_to_path "$(brew --prefix ruby)/bin"
 
 prepend_to_path "/opt/homebrew/opt/ccache/libexec"
 
-alias download_website='wget --mirror -p --convert-links --no-parent'
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -207,6 +210,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 prepend_to_path "$HOME/.local/bin"
 
 alias lvim='nvim-lunarvim' # LunarVim
+
 
 
 # Meld merge tool
@@ -240,19 +244,21 @@ export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
 
 # Android dev
 export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+append_to_path "$ANDROID_HOME/emulator"
+append_to_path "$ANDROID_HOME/tools"
+append_to_path "$ANDROID_HOME/tools/bin"
+append_to_path "$ANDROID_HOME/platform-tools"
 
 # pnpm
 export PNPM_HOME="/Users/brett/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *) prepend_to_path $PNPM_HOME ;;
 esac
 # pnpm end
 
+
+alias download_website='wget --mirror -p --convert-links --no-parent'
 
 # VPN aliases
 alias vpn-start="aws ec2 start-instances --profile algo-vpn --region ap-northeast-1 --instance-ids i-073d4b357cf703898"

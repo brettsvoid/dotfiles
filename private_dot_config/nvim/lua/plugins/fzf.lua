@@ -4,7 +4,6 @@ return {
 	dependencies = {
 		"echasnovski/mini.icons",
 		"MeanderingProgrammer/render-markdown.nvim",
-		"nvim-treesitter/nvim-treesitter-context",
 	},
 	--cmd = { 'FzfLua' },
 	config = function()

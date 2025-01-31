@@ -4,7 +4,7 @@ return { -- lspconfig
 		--enabled = false,
 		dependencies = {
 			"mason.nvim",
-			{ "williamboman/mason-lspconfig.nvim", config = function() end },
+			{ "williamboman/mason-lspconfig.nvim" },
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 			"b0o/schemastore.nvim",
@@ -134,7 +134,16 @@ return { -- lspconfig
 								enable = false,
 								url = "",
 							},
-							schemas = schemastore.yaml.schemas(),
+							schemas = schemastore.yaml.schemas({
+								extra = {
+									{
+										name = "site-builder-page-schema.json",
+										description = "Local schema",
+										url = "./site-builder-page-schema.json",
+										fileMatch = "*.{yml,yaml}",
+									},
+								},
+							}),
 						},
 					},
 				},
@@ -203,7 +212,7 @@ return { -- lspconfig
 						--  Similar to document symbols, except searches over your entire project.
 						{ "n", "<leader>sW", "<cmd>lua vim.lsp.buf.dynamic_workspace_symbols()<CR>",  "[W]orkspace [S]ymbols" },
 
-						-- { "n", "<leader>gl", "<cmd>vim.diagnostic.open_float()<CR>",  "Show [l]ine diagnostics" },
+						{ "n", "<leader>gl", "<cmd>lua vim.diagnostic.open_float()<CR>",  "Show [l]ine diagnostics" },
 					}
 					-- stylua: ignore end
 
@@ -280,30 +289,29 @@ return { -- lspconfig
 								vim.api.nvim_clear_autocmds({ group = "UserLspHighlight", buffer = event2.buf })
 							end,
 						})
-
-						-- Global Diagnostic Configuration
-						vim.diagnostic.config({
-							virtual_text = false,
-							signs = true,
-							underline = true,
-							update_in_insert = false,
-							severity_sort = true,
-						})
-
-						-- Setup LSP Servers
-						mason_lspconfig.setup_handlers({
-							function(server_name)
-								local server = servers[server_name] or {}
-								-- This handles overriding only values explicitly passed
-								-- by the server configuration above. Useful when disabling
-								-- certain features of an LSP (for example, turning off formatting for ts_ls)
-								server.capabilities =
-									vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-								server.handlers = handlers
-								lspconfig[server_name].setup(server)
-							end,
-						})
 					end
+				end,
+			})
+
+			-- Global Diagnostic Configuration
+			vim.diagnostic.config({
+				virtual_text = false,
+				signs = true,
+				underline = true,
+				update_in_insert = false,
+				severity_sort = true,
+			})
+
+			-- Setup LSP Servers
+			mason_lspconfig.setup_handlers({
+				function(server_name)
+					local server = servers[server_name] or {}
+					-- This handles overriding only values explicitly passed
+					-- by the server configuration above. Useful when disabling
+					-- certain features of an LSP (for example, turning off formatting for ts_ls)
+					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+					server.handlers = handlers
+					lspconfig[server_name].setup(server)
 				end,
 			})
 
@@ -337,6 +345,9 @@ return { -- lspconfig
 				"eslint_d", -- js linter
 
 				"dockerls", -- dockerfile language server
+			})
+			require("mason-lspconfig").setup({
+				ensure_installed = ensure_installed,
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

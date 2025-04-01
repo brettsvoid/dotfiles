@@ -1,9 +1,9 @@
 return {
 	"folke/trouble.nvim",
-	dependencies = {
-		"nvim-tree/nvim-web-devicons",
-	},
-	cmd = "Trouble",
+	-- dependencies = {
+	-- 	"nvim-tree/nvim-web-devicons",
+	-- },
+	cmd = { "Trouble" },
 	keys = {
 		{
 			"<leader>xx",
@@ -37,6 +37,11 @@ return {
 		},
 	},
 	opts = {
+		modes = {
+			lsp = {
+				win = { position = "right" },
+			},
+		},
 		preview = {
 			type = "floating",
 		},

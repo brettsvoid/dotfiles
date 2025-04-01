@@ -91,6 +91,17 @@ return { -- lspconfig
 							completion = {
 								callSnippet = "Replace",
 							},
+							diagnostics = {
+								globals = { "vim", "hs" },
+							},
+							workspace = {
+								library = {
+									vim.fn.expand("$VIMRUNTIME/lua"),
+									vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
+									"/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/",
+									"/Users/brett/.hammerspoon/Spoons/EmmyLua.spoon/annotations",
+								},
+							},
 						},
 					},
 				},
@@ -137,9 +148,15 @@ return { -- lspconfig
 							schemas = schemastore.yaml.schemas({
 								extra = {
 									{
+										name = "site-builder-global-schema.json",
+										description = "Site build global schema",
+										url = "/Users/brett/work/projects/site-builder/site-builder-global-schema.json",
+										fileMatch = "global.{yml,yaml}",
+									},
+									{
 										name = "site-builder-page-schema.json",
-										description = "Local schema",
-										url = "./site-builder-page-schema.json",
+										description = "Site builder page schema",
+										url = "/Users/brett/work/projects/site-builder/site-builder-page-schema.json",
 										fileMatch = "*.{yml,yaml}",
 									},
 								},
@@ -335,14 +352,15 @@ return { -- lspconfig
 			-- for you, so that they are available from within Neovim.
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
-				"stylua", -- lua formatter
-				"selene", -- lua linter
+				-- "stylua", -- lua formatter
+				-- "selene", -- lua linter
+				--
+				-- "black", -- python formatter
+				-- "pylint", -- python linter
 
-				"black", -- python formatter
-				"pylint", -- python linter
-
-				"prettierd", -- prettier formatter
-				"eslint_d", -- js linter
+				--"prettierd", -- prettier formatter
+				--"prettier", -- prettier formatter
+				"eslint", -- js linter
 
 				"dockerls", -- dockerfile language server
 			})

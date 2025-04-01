@@ -53,6 +53,7 @@ return {
 	config = function(opts)
 		local noice = require("noice")
 		local lualine = require("lualine")
+		local notify = require("notify")
 
 		noice.setup(opts)
 
@@ -66,6 +67,12 @@ return {
 					},
 				},
 			},
+		})
+
+		local colors = require("catppuccin.palettes").get_palette("macchiato")
+		notify.setup({
+			background_colour = colors.base, -- seems to be the color it transitions from when fading in
+			merge_duplicates = 2,
 		})
 	end,
 }

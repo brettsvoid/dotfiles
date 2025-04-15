@@ -211,6 +211,8 @@ prepend_to_path "$HOME/.local/bin"
 
 alias lvim='nvim-lunarvim' # LunarVim
 
+# Use neovim for vimdiff
+alias vimdiff='nvim -d'
 
 
 # Meld merge tool

@@ -28,7 +28,7 @@ vim.opt.wrap = false -- disable line wrapping
 -- backup and undo handling
 vim.opt.swapfile = false
 vim.opt.backup = false -- set to false to let undo tree handle undos
-vim.opt.undodir = os.getenv 'HOME' .. '/.vim/undodir'
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
 -- search settings
@@ -37,7 +37,7 @@ vim.opt.smartcase = true -- if you include mixed case in your search, assumes yo
 
 -- scroll settings
 vim.opt.scrolloff = 8
-vim.opt.isfname:append '@-@'
+vim.opt.isfname:append("@-@")
 
 -- cursor line
 vim.opt.cursorline = true -- highlight the current cursor line
@@ -51,7 +51,7 @@ vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 
 -- preview substitutions live, as you type
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = "split"
 
 -- Appearance --
 vim.opt.hlsearch = false
@@ -59,10 +59,10 @@ vim.opt.incsearch = true
 
 -- turn on termguicolors for 24-bit color
 vim.opt.termguicolors = true
-vim.opt.signcolumn = 'yes' -- show sign column so that text doesn't shift
+vim.opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
 -- backspace
-vim.opt.backspace = 'indent,eol,start' -- allow backspace on indent, end of line or insert mode start position
+vim.opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
 -- split windows
 vim.opt.splitright = true -- split vertical window to the right
@@ -78,7 +78,7 @@ vim.opt.splitright = true -- split vertical window to the right
 -- noselect: Do not select, force to select one from the menu
 -- shortness: avoid showing extra messages when using completion
 -- updatetime: set updatetime for CursorHold
-vim.opt.completeopt = { 'menuone', 'noselect', 'noinsert' }
+vim.opt.completeopt = { "menuone", "noselect", "noinsert" }
 vim.opt.shortmess = vim.opt.shortmess + { c = true }
 
 -- When pressing `p`, clipboard will be pasted
@@ -86,4 +86,4 @@ vim.opt.shortmess = vim.opt.shortmess + { c = true }
 
 -- Make sure sessionoptions contains localoptions so that filetype and highlighting work correctly after a session is restores
 -- Suggested by rmagatti/auto-session
-vim.opt.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"

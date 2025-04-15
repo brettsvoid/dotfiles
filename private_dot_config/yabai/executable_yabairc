@@ -1,20 +1,108 @@
+#!/usr/bin/env bash
+
+# To get the names of all the running applications
+# yabai -m query --windows | jq -r '.[].app'
+
+# Load all the variables I need from the yabai_env.sh file
+source "./yabai_env.sh"
+
+# This command is the one that loads the scripting addition
+# Configure your user to execute `yabai --load-sa` as the root user without having to enter a password.
+#  https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#configure-scripting-addition
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
-# Layout options: bsp, stack of float
-yabai -m config layout bsp
+#------------------------------------------------------------------------------
+#                              Excluded apps
+#------------------------------------------------------------------------------
 
-yabai -m config window_placement second_child
+yabai -m rule --add app="^${apps_mgoff_normal}$" manage=off
+yabai -m rule --add app="^${apps_mgoff_below}$" manage=off sub-layer=below
+yabai -m rule --add app="^${apps_mgoff_above}$" manage=off sub-layer=above
 
-# Padding
+# In case you want to debug and see the contents of a variable
+# echo "apps_mgoff_below: ^${apps_mgoff_normal}$" > /tmp/yabai_debug.log
+
+# yabai -m rule --add app="kitty" manage=on position=200:50 size=10:50
+# yabai -m rule --add app="^kitty$" manage=off position=100:100 size=80:60
+
+#------------------------------------------------------------------------------
+#                          Custom padding settings
+#------------------------------------------------------------------------------
+
+# Sketchybar size changes depending if I'm on my laptop or mac mini, solving it
+# this way, there may be a better way but this was the easiest to solve for now
+# I only change the paddings if yabai is installed, otherwise I use default
+# paddings
+if command -v sketchybar &>/dev/null; then
+  # Check the display size (e.g., grab the resolution here)
+  display_resolution=$(system_profiler SPDisplaysDataType | grep Resolution)
+  # First condition is to match macbook pro (13.3-inch retina), the `*` is used as wildcards
+  if [[ "$display_resolution" == *"2560 x 1600"* ]]; then
+    yabai -m config top_padding 40
+    yabai -m config bottom_padding 0
+    yabai -m config left_padding 0
+    yabai -m config right_padding 0
+  # Matches Samsung G5 32-inch monitor
+  elif [[ "$display_resolution" == *"2560 x 1440"* ]]; then
+    yabai -m config top_padding 40
+    yabai -m config bottom_padding 0
+    yabai -m config left_padding 0
+    yabai -m config right_padding 0
+  # Matches Alienware 25-inch
+  elif [[ "$display_resolution" == *"1080 x 1920"* ]]; then
+    yabai -m config top_padding 10
+    yabai -m config bottom_padding 0
+    yabai -m config left_padding 0
+    yabai -m config right_padding 0
+  fi
+else
+  yabai -m config top_padding 2
+  yabai -m config bottom_padding 0
+fi
+
+#------------------------------------------------------------------------------
+#                                 Paddings
+#------------------------------------------------------------------------------
+
 #yabai -m config top_padding 8
 #yabai -m config bottom_padding 8
 #yabai -m config left_padding 8
 #yabai -m config right_padding 8
 #yabai -m config window_gap 8
 
-# Mouse settings
-#yabai -m config mouse_follows_focus on
+#------------------------------------------------------------------------------
+#                             sub-layer=normal
+#------------------------------------------------------------------------------
+
+# https://github.com/koekeishiya/yabai/issues/1929
+
+# Set all apps to the "normal" sub-layer, otherwise they all start on the "below"
+# sub-layer. Doing this fixes the issue with apps where their floating windows
+# would show on top of other apps
+
+yabai -m rule --add app=".*" sub-layer=normal
+
+#------------------------------------------------------------------------------
+#                                  Misc
+#------------------------------------------------------------------------------
+
+# Layout options: bsp, stack of float
+#yabai -m config layout bsp
+
+#yabai -m config window_placement second_child
+
+# "mouse_follows_focus on" will move the mouse back to the center, but DISABLE it or it will
+# be a nightmare to use iStat Menus
+yabai -m config mouse_follows_focus off
+
+# Configure the layout mode
+# "stack" - keeps a single app on the front
+# "bsp" - binary space partitioning enables automatic tiling (partitioning)
+# "float" - default mode, windows are not managed
+yabai -m config layout stack
+# yabai -m config layout bsp
+# yabai -m config layout float
 
 # yabai -m config mouse_modifier alt
 # left click + drag
@@ -22,12 +110,11 @@ yabai -m config window_placement second_child
 # right click + drag
 # yabai -m config mouse_action2 resize
 
-yabai -m mouse_drop_action swap
+#yabai -m mouse_drop_action swap
 
 # Disable specific apps
-yabai -m rule --add app="^System Settings$" manage=off
-yabai -m rule --add app="^Calculator$" manage=off
-yabai -m rule --add app="^Spotify$" manage=off
-yabai -m rule --add app="DBeaver" manage=off
-yabai -m rule --add app="^Simulator$" manage=off
-
+# yabai -m rule --add app="^System Settings$" manage=off
+# yabai -m rule --add app="^Calculator$" manage=off
+# yabai -m rule --add app="^Spotify$" manage=off
+# yabai -m rule --add app="DBeaver" manage=off
+# yabai -m rule --add app="^Simulator$" manage=off

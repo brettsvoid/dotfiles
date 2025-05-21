@@ -124,8 +124,12 @@ fi
 # -------------------------
 [ -f ~/.env_vars ] && source ~/.env_vars
 
-# Use nvim as default instead of vim
+alias cat="bat"
+alias find="fd"
+# alias grep="rg" 
+# alias ps="procs"
 alias vim="nvim"
+
 
 # Use lsd as default (https://webinstall.dev/lsd/)
 alias ls="lsd -F"
@@ -150,6 +154,22 @@ code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 # Set code editor for jumping into editor from stack traces
 export REACT_EDITOR=vim
 
+# sketchybar
+# This will update the brew package count after running a brew upgrade, brew
+# update or brew outdated command
+if command -v sketchybar &>/dev/null; then
+    # Define a custom 'brew' function to wrap the Homebrew command.
+    function brew() {
+      # Execute the original Homebrew command with all passed arguments.
+      command brew "$@"
+      # Check if the command includes "upgrade", "update", or "outdated".
+      if [[ $* =~ "upgrade" ]] || [[ $* =~ "update" ]] || [[ $* =~ "outdated" ]] || [[ $* =~ "list" ]] || [[ $* =~ "install" ]] || [[ $* =~ "uninstall" ]] || [[ $* =~ "bundle" ]] || [[ $* =~ "doctor" ]] || [[ $* =~ "info" ]] || [[ $* =~ "cleanup" ]]; then
+	# If so, notify SketchyBar to trigger a custom action.
+	sketchybar --trigger brew_update
+      fi
+    }
+fi
+
 # -------------------------
 # PATH mutations
 # -------------------------
@@ -171,6 +191,9 @@ function prepend_to_path() {
 # prepend_to_path "$VOLTA_HOME/bin"
 
 
+#export PATH="/opt/homebrew/bin:$PATH"
+prepend_to_path "/opt/homebrew/bin"
+
 # Added by Amplify CLI binary installer
 prepend_to_path "$HOME/.amplify/bin"
 
@@ -178,6 +201,9 @@ prepend_to_path "$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 
 # Add `go` binaries to path
 append_to_path "$HOME/go/bin"
+
+# Add docker cli
+append_to_path "$HOME/.docker/bin"
 
 
 # >>> conda initialize >>>
@@ -203,6 +229,28 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
+# Call 'nvm use' automatically in a directory with a .nvmrc file
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -211,8 +259,6 @@ prepend_to_path "$HOME/.local/bin"
 
 alias lvim='nvim-lunarvim' # LunarVim
 
-# Use neovim for vimdiff
-alias vimdiff='nvim -d'
 
 
 # Meld merge tool
@@ -272,4 +318,8 @@ alias factorio-start="aws ec2 start-instances --profile factorio --region eu-wes
 alias factorio-stop="aws ec2 stop-instances --profile factorio --region eu-west-1 --instance-ids i-026aeca5f45cfd94c"
 alias factorio-status="aws ec2 describe-instances --profile factorio --region eu-west-1 | jq '.Reservations[0].Instances[0].State'"
 
+# Use neovim for vimdiff
+alias vimdiff='nvim -d'
 
+# Initialise zoxide
+eval "$(zoxide init zsh)"

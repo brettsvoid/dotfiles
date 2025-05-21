@@ -49,6 +49,7 @@ return { -- lspconfig
 			-- - settings (table): Override the default settings passed when initializing the server.
 			--       For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
+				biome = {},
 				pyright = {
 					on_attach = function(client)
 						-- Using different formatter (ruff_format)
@@ -58,9 +59,9 @@ return { -- lspconfig
 					settings = {
 						python = {
 							analysis = {
-								typeCheckingMode = "strict", -- Options: off, basic, strict
 								autoSearchPaths = true,
 								diagnosticMode = "workspace", -- Options: openFilesOnly, workspace
+								typeCheckingMode = "strict", -- Options: off, basic, strict
 								useLibraryCodeForTypes = true,
 							},
 						},

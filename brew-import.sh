@@ -4,7 +4,7 @@ set -e # Exit on error
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-IMPORT_DIR="$SCRIPT_DIR/.brew-import"
+IMPORT_DIR="$SCRIPT_DIR/install/.brew-import"
 
 # Check if Homebrew is installed
 if ! command -v brew >/dev/null 2>&1; then

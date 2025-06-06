@@ -14,7 +14,6 @@ karabiner-elements
 kitty
 loopback
 macdown
-mactex
 mos
 ngrok
 postman

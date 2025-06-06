@@ -39,6 +39,7 @@ lazydocker
 lazygit
 libsixel
 llvm
+lsd
 luarocks
 mkcert
 ncdu

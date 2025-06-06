@@ -146,22 +146,24 @@ return { -- lspconfig
 								enable = false,
 								url = "",
 							},
-							schemas = schemastore.yaml.schemas({
-								extra = {
-									{
-										name = "site-builder-global-schema.json",
-										description = "Site build global schema",
-										url = "/Users/brett/work/projects/site-builder/site-builder-global-schema.json",
-										fileMatch = "{tyto,site-builder}/**/global.{yml,yaml}",
-									},
-									{
-										name = "site-builder-page-schema.json",
-										description = "Site builder page schema",
-										url = "/Users/brett/work/projects/site-builder/site-builder-page-schema.json",
-										fileMatch = "{tyto,site-builder}/**/*.{yml,yaml}",
-									},
-								},
-							}),
+							-- Rather specify them at the top of the yaml file if possible like:
+							-- # yaml-language-server: $schema=../relative/path/to/schema
+							-- schemas = schemastore.yaml.schemas({
+							-- 	extra = {
+							-- 		{
+							-- 			name = "site-builder-global-schema.json",
+							-- 			description = "Site build global schema",
+							-- 			url = "/Users/brett/work/projects/site-builder/site-builder-global-schema.json",
+							-- 			fileMatch = "{tyto,site-builder}/**/global.{yml,yaml}",
+							-- 		},
+							-- 		{
+							-- 			name = "site-builder-page-schema.json",
+							-- 			description = "Site builder page schema",
+							-- 			url = "/Users/brett/work/projects/site-builder/site-builder-page-schema.json",
+							-- 			fileMatch = "{tyto,site-builder}/**/*.{yml,yaml}",
+							-- 		},
+							-- 	},
+							-- }),
 						},
 					},
 				},

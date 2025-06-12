@@ -152,7 +152,7 @@ code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 #autoload -Uz compinit && compinit
 
 # Set code editor for jumping into editor from stack traces
-export REACT_EDITOR=vim
+export REACT_EDITOR=nvim
 
 # sketchybar
 # This will update the brew package count after running a brew upgrade, brew

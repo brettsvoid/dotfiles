@@ -4,7 +4,8 @@
 # yabai -m query --windows | jq -r '.[].app'
 
 # Load all the variables I need from the yabai_env.sh file
-source "./yabai_env.sh"
+current_dir="$(dirname "$0")"
+source "$current/yabai_env.sh"
 
 # This command is the one that loads the scripting addition
 # Configure your user to execute `yabai --load-sa` as the root user without having to enter a password.
@@ -21,7 +22,7 @@ yabai -m rule --add app="^${apps_mgoff_below}$" manage=off sub-layer=below
 yabai -m rule --add app="^${apps_mgoff_above}$" manage=off sub-layer=above
 
 # In case you want to debug and see the contents of a variable
-# echo "apps_mgoff_below: ^${apps_mgoff_normal}$" > /tmp/yabai_debug.log
+#echo "apps_mgoff_below: ^${apps_mgoff_below}$" > /tmp/yabai_debug.log
 
 # yabai -m rule --add app="kitty" manage=on position=200:50 size=10:50
 # yabai -m rule --add app="^kitty$" manage=off position=100:100 size=80:60

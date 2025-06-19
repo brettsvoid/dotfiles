@@ -1,7 +1,17 @@
-# check if there is exactly one window belonging to the process of the window that was just created
+#!/usr/bin/env bash
+
+# Check if there is exactly one window belonging to the process of the window that was just 
+# created and unfloat it. This expects these processes to be set to manage=off initially. 
+# That will keep the float window sizes initialising as fullscreen.
 if yabai -m query --windows \
-    | jq -er 'map(select(.id == env.YABAI_WINDOW_ID).pid)[0] as $pid | map(select(.pid == $pid)) | length == 1' >  /dev/null 
+    | jq -er '
+        # Find the pid for the current window
+        map(select(.id == (env.YABAI_WINDOW_ID | tonumber)).pid)[0] as $pid 
+        # Count how many windows share that pid
+        | map(select(.pid == $pid)) | length == 1
+    ' >  /dev/null 
 then
-    # unfloat the window
-    yabai -m window "${YABAI_WINDOW_ID}"  --toggle float
+    # This is the only window with this pid — treat it as the main/root window
+    yabai -m window "${YABAI_WINDOW_ID}" --toggle float
 fi
+

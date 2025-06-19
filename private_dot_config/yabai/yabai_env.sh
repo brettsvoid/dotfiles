@@ -29,9 +29,8 @@ apps_scratchpad="^(Udemy|WezTerm)$"
 # Apps excluded from window management, so you can resize them and move them around
 # This is basically the ignore list
 
-# I had to move them away from normal, because all these apps would stay on top
-# of other apps
-apps_mgoff_normal="^(DBeaver Community)$"
+apps_mgoff_normal="^(Finder)$"
+apps_mgoff_hybrid="^(DBeaver|DBeaver Community)$"
 
 # This keeps apps always on the top
 apps_mgoff_above="^()$"

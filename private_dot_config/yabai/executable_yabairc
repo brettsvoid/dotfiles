@@ -21,10 +21,11 @@ yabai -m rule --add app="${apps_mgoff_normal}" manage=off
 yabai -m rule --add app="${apps_mgoff_below}" manage=off sub-layer=below
 yabai -m rule --add app="${apps_mgoff_above}" manage=off sub-layer=above
 
-yabai -m signal --add event=window_created app="${apps_mgoff_normal}" action="$current_dir/yabai_float_window.sh"
+yabai -m rule --add app="${apps_mgoff_hybrid}" manage=off
+yabai -m signal --add event=window_created app="${apps_mgoff_hybrid}" action="$current_dir/yabai_float_window.sh"
 
 # In case you want to debug and see the contents of a variable
-echo "apps_mgoff_below: ^${apps_mgoff_below}$" > /tmp/yabai_debug.log
+#echo "apps_mgoff_below: ${apps_mgoff_normal}" > /tmp/yabai_debug.log
 
 # yabai -m rule --add app="kitty" manage=on position=200:50 size=10:50
 # yabai -m rule --add app="^kitty$" manage=off position=100:100 size=80:60

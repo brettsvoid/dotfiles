@@ -223,6 +223,9 @@ unset __conda_setup
 
 prepend_to_path "$(brew --prefix ruby)/bin"
 
+# Add rustup
+append_to_path "$(brew --prefix rustup)/bin"
+
 prepend_to_path "/opt/homebrew/opt/ccache/libexec"
 
 export NVM_DIR="$HOME/.nvm"

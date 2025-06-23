@@ -4,8 +4,10 @@ return {
 	event = "VeryLazy",
 	version = false, -- set this if you want to always pull the latest change
 	opts = {
+		---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
+		---@type Provider
 		provider = "claude",
-		auto_suggestions_provider = "copilot",
+		auto_suggestions_provider = "claude",
 		-- cursor_applying_provider = "openai",
 		-- behaviour = {
 		-- 	enable_cursor_planning_mode = true, -- enable cursor planning mode
@@ -15,31 +17,34 @@ return {
 		-- 	proxy = nil,
 		-- },
 		--		vendors = {
-		claude = {
-			endpoint = "https://api.anthropic.com",
-			model = "claude-3-5-sonnet-20241022",
-			--model = "claude-3-7-sonnet-20250129",
-			timeout = 30000, -- Timeout in milliseconds
-			temperature = 0,
-			max_tokens = 8000,
-		},
-		openai = {
-			endpoint = "https://api.openai.com/v1",
-			model = "gpt-4o",
-			timeout = 30000, -- Timeout in milliseconds
-			temperature = 0,
-			max_tokens = 32768,
-			--reasoning_effort = "medium"
-		},
-		copilot = {
-			endpoint = "https://api.githubcopilot.com",
-			--model = "gpt-4o",
-			proxy = nil, -- [protocol://]host[:port] Use this proxy
-			allow_insecure = false, -- Allow insecure server connections
-			timeout = 30000, -- Timeout in milliseconds
-			temperature = 0,
-			max_tokens = 4096,
-		},
+		providers = {
+			claude = {
+				endpoint = "https://api.anthropic.com",
+				model = "claude-3-5-sonnet-20241022",
+				extra_request_body = {
+					temperature = 0.75,
+					max_tokens = 4096,
+				},
+			},
+			openai = {
+				endpoint = "https://api.openai.com/v1",
+				model = "gpt-4o",
+				extra_request_body = {
+					temperature = 0,
+					max_tokens = 32768,
+				}
+				--reasoning_effort = "medium"
+			},
+			copilot = {
+				endpoint = "https://api.githubcopilot.com",
+				--model = "gpt-4o",
+				proxy = nil, -- [protocol://]host[:port] Use this proxy
+				allow_insecure = false, -- Allow insecure server connections
+				extra_request_body = {
+					temperature = 0,
+					max_tokens = 4096,
+				}
+			},
 		-- groq = { -- define groq provider
 		--     __inherited_from = 'openai',
 		--     api_key_name = 'GROQ_API_KEY',
@@ -48,6 +53,7 @@ return {
 		--     max_completion_tokens = 32768, -- remember to increase this value, otherwise it will stop generating halfway
 		-- },
 		--		},
+		},
 	},
 
 	-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`

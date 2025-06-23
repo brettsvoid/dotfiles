@@ -326,3 +326,25 @@ alias vimdiff='nvim -d'
 
 # Initialise zoxide
 eval "$(zoxide init zsh)"
+
+# Bitwarden session login
+unlock_bw_if_locked() {
+  if [[ -z "$BW_SESSION" ]]; then
+    export BW_SESSION="$(bw unlock --raw)"
+    bw sync
+  fi
+}
+
+get_bws_secret_id() {
+  echo "$(bws secret list | jq -r --arg key "$1" 'map(select(.key == $key) | .id)[0]')"
+}
+
+# Export secrets from Bitwarden Secrets Manager
+export_api_keys() {
+  unlock_bw_if_locked
+
+  export OPENAI_API_KEY="$(bws secret get $(get_bws_secret_id "OPENAI_API_KEY") | jq -r .value)"
+  export ANTHROPIC_API_KEY="$(bws secret get $(get_bws_secret_id "ANTHROPIC_API_KEY") | jq -r .value)"
+}
+
+export_api_keys

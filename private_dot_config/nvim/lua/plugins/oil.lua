@@ -1,4 +1,5 @@
 -- https://github.com/stevearc/oil.nvim
+---@type LazySpec
 return {
 	"stevearc/oil.nvim",
 	---@module 'oil'
@@ -10,13 +11,13 @@ return {
 	keys = {
 		-- Open parent directory in current window
 		{ "-", "<CMD>Oil<CR>", desc = "Open parent directory" },
-		{
-			"<leader>-",
-			function()
-				require("oil").toggle_float()
-			end,
-			desc = "Open parent directory (floating window)",
-		},
+		-- {
+		-- 	"<leader>-",
+		-- 	function()
+		-- 		require("oil").toggle_float()
+		-- 	end,
+		-- 	desc = "Open parent directory (floating window)",
+		-- },
 		{
 			"<ESC>",
 			function()

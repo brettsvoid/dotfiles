@@ -1,8 +1,6 @@
+-- https://github.com/folke/trouble.nvim
 return {
 	"folke/trouble.nvim",
-	-- dependencies = {
-	-- 	"nvim-tree/nvim-web-devicons",
-	-- },
 	cmd = { "Trouble" },
 	keys = {
 		{
@@ -21,17 +19,17 @@ return {
 			desc = "[S]ymbols (Trouble)",
 		},
 		{
-			"<leader>cd",
+			"<leader>cl",
 			"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
 			desc = "LSP [D]efinitions / references / ... (Trouble)",
 		},
 		{
-			"<leader>xl",
+			"<leader>xL",
 			"<cmd>Trouble loclist toggle<cr>",
 			desc = "[L]ocation List (Trouble)",
 		},
 		{
-			"<leader>xq",
+			"<leader>xQ",
 			"<cmd>Trouble qflist toggle<cr>",
 			desc = "[Q]uickfix List (Trouble)",
 		},

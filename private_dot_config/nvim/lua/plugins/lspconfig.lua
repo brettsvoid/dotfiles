@@ -3,8 +3,8 @@ return { -- lspconfig
 		"neovim/nvim-lspconfig",
 		--enabled = false,
 		dependencies = {
-			"mason.nvim",
-			{ "williamboman/mason-lspconfig.nvim" },
+			{ "mason-org/mason.nvim", opts = {} },
+			{ "mason-org/mason-lspconfig.nvim" },
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 			"b0o/schemastore.nvim",
@@ -24,21 +24,15 @@ return { -- lspconfig
 		config = function(_, opts)
 			-- Cache required modules
 			local lspconfig = require("lspconfig")
-			local mason_lspconfig = require("mason-lspconfig")
 			local schemastore = require("schemastore")
 			-- Define LSP capabilities
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
-
-			-- Initialize Mason-LSPConfig
-			mason_lspconfig.setup({
-				ensure_installed = {}, -- This is handled by mason-tool-installer
-				automatic_installation = false,
-			})
+			local border = true
 
 			-- Add hover and signature help popup windows
 			local handlers = {
-				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover),
-				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+				-- ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover),
+				-- ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 			}
 
 			-- Enable the following language servers
@@ -182,7 +176,7 @@ return { -- lspconfig
 			--    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
 			--    function will be executed to configure the current buffer
 			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+				group = vim.api.nvim_create_augroup("UserLspConf", { clear = true }),
 				callback = function(event)
 					local buffer = event.buf
 					local opts = { buffer = buffer, silent = true, noremap = true }
@@ -322,17 +316,21 @@ return { -- lspconfig
 				severity_sort = true,
 			})
 
-			-- Setup LSP Servers
-			mason_lspconfig.setup_handlers({
-				function(server_name)
-					local server = servers[server_name] or {}
-					-- This handles overriding only values explicitly passed
-					-- by the server configuration above. Useful when disabling
-					-- certain features of an LSP (for example, turning off formatting for ts_ls)
-					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-					server.handlers = handlers
-					lspconfig[server_name].setup(server)
-				end,
+			require("mason-lspconfig").setup({
+				ensure_installed = {}, -- explicitly set to an empty table, this is handled by mason-tool-installer
+				automatic_enable = true,
+				automatic_installation = false,
+				handlers = {
+					function(server_name)
+						local server = servers[server_name] or {}
+						-- This handles overriding only values explicitly passed
+						-- by the server configuration above. Useful when disabling
+						-- certain features of an LSP (for example, turning off formatting for ts_ls)
+						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+						server.handlers = handlers
+						lspconfig[server_name].setup(server)
+					end,
+				},
 			})
 
 			-- Add border to the diagnostic popup window
@@ -355,20 +353,17 @@ return { -- lspconfig
 			-- for you, so that they are available from within Neovim.
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
-				-- "stylua", -- lua formatter
-				-- "selene", -- lua linter
-				--
-				-- "black", -- python formatter
-				-- "pylint", -- python linter
+				"stylua", -- lua formatter
+				"selene", -- lua linter
 
-				--"prettierd", -- prettier formatter
-				--"prettier", -- prettier formatter
+				"black", -- python formatter
+				"pylint", -- python linter
+
+				"prettierd", -- prettier formatter
+				"prettier", -- prettier formatter
 				"eslint", -- js linter
 
 				"dockerls", -- dockerfile language server
-			})
-			require("mason-lspconfig").setup({
-				ensure_installed = ensure_installed,
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

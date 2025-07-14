@@ -13,6 +13,9 @@ source "$current_dir/yabai_env.sh"
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
+# This is the recommended setup for using the Raycast yabai extension
+yabai -m signal --add event=space_changed action="nohup open -g raycast://extensions/krzysztoff1/yabai/screens-menu-bar?launchType=background > /dev/null 2>&1 &"
+
 #------------------------------------------------------------------------------
 #                              Excluded apps
 #------------------------------------------------------------------------------
@@ -90,9 +93,6 @@ yabai -m rule --add app=".*" sub-layer=normal
 #------------------------------------------------------------------------------
 #                                  Misc
 #------------------------------------------------------------------------------
-
-# Layout options: bsp, stack of float
-#yabai -m config layout bsp
 
 #yabai -m config window_placement second_child
 

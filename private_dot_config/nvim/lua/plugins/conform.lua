@@ -56,6 +56,8 @@ return {
 			typescriptreact = { "prettier" },
 			yaml = { "prettier" },
 
+			go = { "gofumpt", "goimports_reviser", "golines" },
+
 			["*"] = { "injected" },
 		},
 		-- Set up format-on-save

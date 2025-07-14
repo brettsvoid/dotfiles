@@ -27,7 +27,7 @@ return { -- lspconfig
 			local schemastore = require("schemastore")
 			-- Define LSP capabilities
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
-			local border = true
+			local border = "rounded"
 
 			-- Add hover and signature help popup windows
 			local handlers = {
@@ -114,6 +114,20 @@ return { -- lspconfig
 						"scss",
 						"less",
 						"svelte",
+					},
+				},
+
+				gopls = {
+					filetypes = { "go", "gomod", "gowork", "gotmpl" },
+					root_dir = require("lspconfig/util").root_pattern("go.work", "go.mod", ".git"),
+					settings = {
+						gopls = {
+							completeUnimported = true,
+							usePlaceholders = true,
+							analyses = {
+								unusedparams = true,
+							},
+						},
 					},
 				},
 
@@ -364,6 +378,11 @@ return { -- lspconfig
 				"eslint", -- js linter
 
 				"dockerls", -- dockerfile language server
+
+				"gopls", -- go language server
+				"gofumpt", -- go formatter (used by none-ls)
+				"goimports-reviser", -- go imports sorter (used by none-ls)
+				"golines", -- go line shortener if longer than 80 characters (used by none-ls)
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source "$HOME/.config/config.sh"
-
 # To get the names of all the running applications
 # yabai -m query --windows | jq -r '.[].app'
 
@@ -41,31 +39,33 @@ yabai -m signal --add event=window_created app="${apps_mgoff_hybrid}" action="$c
 
 # Sketchybar size changes depending if I'm on my laptop or mac mini, solving it
 # this way, there may be a better way but this was the easiest to solve for now
-# I only change the paddings if sketchybar is installed, otherwise I use default
+# I only change the paddings if yabai is installed, otherwise I use default
 # paddings
 if command -v sketchybar &>/dev/null; then
   # Check the display size (e.g., grab the resolution here)
   display_resolution=$(system_profiler SPDisplaysDataType | grep Resolution)
   # First condition is to match macbook pro (13.3-inch retina), the `*` is used as wildcards
-  # if [[ "$display_resolution" == *"2560 x 1600"* ]]; then
-  #   yabai -m config top_padding $EXTERNAL_BAR
-  #   yabai -m config bottom_padding 0
-  #   yabai -m config left_padding 0
-  #   yabai -m config right_padding 0
-  # # Matches Samsung G5 32-inch monitor
-  # elif [[ "$display_resolution" == *"2560 x 1440"* ]]; then
-  #   yabai -m config top_padding $EXTERNAL_BAR
-  #   yabai -m config bottom_padding 0
-  #   yabai -m config left_padding 0
-  #   yabai -m config right_padding 0
-  # # Matches Alienware 25-inch
-  # elif [[ "$display_resolution" == *"1080 x 1920"* ]]; then
-  #   yabai -m config top_padding $EXTERNAL_BAR
-  #   yabai -m config bottom_padding 0
-  #   yabai -m config left_padding 0
-  #   yabai -m config right_padding 0
-  # fi
-  yabai -m config external_bar all:$EXTERNAL_BAR_HEIGHT:0
+  if [[ "$display_resolution" == *"2560 x 1600"* ]]; then
+    yabai -m config top_padding 40
+    yabai -m config bottom_padding 0
+    yabai -m config left_padding 0
+    yabai -m config right_padding 0
+  # Matches Samsung G5 32-inch monitor
+  elif [[ "$display_resolution" == *"2560 x 1440"* ]]; then
+    yabai -m config top_padding 40
+    yabai -m config bottom_padding 0
+    yabai -m config left_padding 0
+    yabai -m config right_padding 0
+  # Matches Alienware 25-inch
+  elif [[ "$display_resolution" == *"1080 x 1920"* ]]; then
+    yabai -m config top_padding 10
+    yabai -m config bottom_padding 0
+    yabai -m config left_padding 0
+    yabai -m config right_padding 0
+  fi
+else
+  yabai -m config top_padding 2
+  yabai -m config bottom_padding 0
 fi
 
 #------------------------------------------------------------------------------
@@ -77,13 +77,6 @@ fi
 #yabai -m config left_padding 8
 #yabai -m config right_padding 8
 #yabai -m config window_gap 8
-
-yabai -m config \
-  top_padding 8 \
-  bottom_padding 8 \
-  left_padding 8 \
-  right_padding 8 \
-  window_gap 8
 
 #------------------------------------------------------------------------------
 #                             sub-layer=normal
@@ -105,9 +98,7 @@ yabai -m rule --add app=".*" sub-layer=normal
 
 # "mouse_follows_focus on" will move the mouse back to the center, but DISABLE it or it will
 # be a nightmare to use iStat Menus
-yabai -m config \
-  mouse_follows_focus off \
-  focus_follows_mouse off
+yabai -m config mouse_follows_focus off
 
 # Configure the layout mode
 # "stack" - keeps a single app on the front
@@ -131,8 +122,3 @@ yabai -m config layout stack
 # yabai -m rule --add app="^Spotify$" manage=off
 # yabai -m rule --add app="DBeaver" manage=off
 # yabai -m rule --add app="^Simulator$" manage=off
-
-yabai -m signal --add event=window_created action="sketchybar -m --trigger window_change &> /dev/null"
-yabai -m signal --add event=window_destroyed action="sketchybar -m --trigger window_change &> /dev/null"
-
-echo "yabai configuration loaded..."

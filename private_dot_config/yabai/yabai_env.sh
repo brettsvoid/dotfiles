@@ -10,13 +10,13 @@ display_resolution=$(system_profiler SPDisplaysDataType | grep Resolution)
 if [[ $(echo "$display_resolution" | grep -c "Resolution") -ge 2 ]]; then
   # This keeps apps always below, seems to be working fine when I switch to other
   # apps
-  apps_mgoff_below="^(System Settings|Calculator|Hammerspoon|Notes|Activity Monitor|App Store|Software Update|Raycast|Photo Booth|Jitsi Meet|Shortcat)$"
+  apps_mgoff_below="^(System Settings|Calculator|Hammerspoon|Notes|Activity Monitor|App Store|Software Update|Raycast|Photo Booth|Jitsi Meet|Shortcat|Screen Sharing|Godot)$"
 else
   # This keeps apps always below, seems to be working fine when I switch to other
   # apps
   #apps_mgoff_below="^(System Settings|Calculator|iStat Menus|Hammerspoon|BetterDisplay|GIMP|Notes|Activity Monitor|App Store|Software Update|TestRig|Gemini|Raycast|OBS Studio|Microsoft Edge|Cisco Packet Tracer|Stickies|kitty|ProLevel|Photo Booth|Hand Mirror|SteerMouse|remote-viewer|Jitsi Meet|DaVinci Resolve)$"
-  apps_mgoff_below="^(System Settings|Calculator|Hammerspoon|Notes|Activity Monitor|App Store|Software Update|Raycast|Photo Booth|Jitsi Meet|Shortcat)$"
-  
+  apps_mgoff_below="^(System Settings|Calculator|Hammerspoon|Notes|Activity Monitor|App Store|Software Update|Raycast|Photo Booth|Jitsi Meet|Shortcat|Screen Sharing|Godot)$"
+
 fi
 
 # Apps that I want to always show, even when I have a transparent app focused

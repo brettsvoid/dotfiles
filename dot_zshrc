@@ -129,7 +129,8 @@ alias find="fd"
 # alias grep="rg" 
 # alias ps="procs"
 alias vim="nvim"
-
+# Use neovim for vimdiff
+alias vimdiff='nvim -d'
 
 # Use lsd as default (https://webinstall.dev/lsd/)
 alias ls="lsd -F"
@@ -324,8 +325,6 @@ alias factorio-start="aws ec2 start-instances --profile factorio --region eu-wes
 alias factorio-stop="aws ec2 stop-instances --profile factorio --region eu-west-1 --instance-ids i-026aeca5f45cfd94c"
 alias factorio-status="aws ec2 describe-instances --profile factorio --region eu-west-1 | jq '.Reservations[0].Instances[0].State'"
 
-# Use neovim for vimdiff
-alias vimdiff='nvim -d'
 
 # Initialise zoxide
 eval "$(zoxide init zsh)"

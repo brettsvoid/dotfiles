@@ -129,7 +129,8 @@ alias find="fd"
 # alias grep="rg" 
 # alias ps="procs"
 alias vim="nvim"
-
+# Use neovim for vimdiff
+alias vimdiff='nvim -d'
 
 # Use lsd as default (https://webinstall.dev/lsd/)
 alias ls="lsd -F"
@@ -232,6 +233,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
+# Psql
+prepend_to_path "$(brew --prefix libpq)/bin"
+
 # Call 'nvm use' automatically in a directory with a .nvmrc file
 autoload -U add-zsh-hook
 load-nvmrc() {
@@ -321,8 +325,6 @@ alias factorio-start="aws ec2 start-instances --profile factorio --region eu-wes
 alias factorio-stop="aws ec2 stop-instances --profile factorio --region eu-west-1 --instance-ids i-026aeca5f45cfd94c"
 alias factorio-status="aws ec2 describe-instances --profile factorio --region eu-west-1 | jq '.Reservations[0].Instances[0].State'"
 
-# Use neovim for vimdiff
-alias vimdiff='nvim -d'
 
 # Initialise zoxide
 eval "$(zoxide init zsh)"

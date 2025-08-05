@@ -87,3 +87,5 @@ vim.opt.shortmess = vim.opt.shortmess + { c = true }
 -- Make sure sessionoptions contains localoptions so that filetype and highlighting work correctly after a session is restores
 -- Suggested by rmagatti/auto-session
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
+vim.opt.winborder = "rounded"

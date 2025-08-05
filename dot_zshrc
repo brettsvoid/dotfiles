@@ -232,6 +232,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
+# Psql
+prepend_to_path "$(brew --prefix libpq)/bin"
+
 # Call 'nvm use' automatically in a directory with a .nvmrc file
 autoload -U add-zsh-hook
 load-nvmrc() {

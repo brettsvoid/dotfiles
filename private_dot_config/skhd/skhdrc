@@ -33,8 +33,12 @@ hyper_mode < escape ; default
 # # flip along x-axis
 # shift + alt - x: yabai -m space --mirror x-axis
 
+
+hyper_mode < cmd + alt - s: yabai -m config layout stack ; skhd -k "escape"
+hyper_mode < cmd + alt - b: yabai -m config layout bsp ; skhd -k "escape"
+
 # toggle window float
-hyper_mode < t: yabai -m window --toggle float --grid 4:4:1:1:2:2 ; skhd -k "escape"
+hyper_mode < cmd + alt - t: yabai -m window --toggle float --grid 4:4:1:1:2:2 ; skhd -k "escape"
 
 # # Modifying Window Size
 

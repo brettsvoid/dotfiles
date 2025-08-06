@@ -266,11 +266,6 @@ prepend_to_path "$HOME/.local/bin"
 
 alias lvim='nvim-lunarvim' # LunarVim
 
-
-
-# Meld merge tool
-# alias meld="open -W -a Meld $@"
-
 # Set up fzf to read terminal history
 source <(fzf --zsh)
 

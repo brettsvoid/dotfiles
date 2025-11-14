@@ -129,6 +129,7 @@ alias find="fd"
 # alias grep="rg" 
 # alias ps="procs"
 alias vim="nvim"
+alias v="nvim"
 # Use neovim for vimdiff
 alias vimdiff='nvim -d'
 

@@ -21,13 +21,15 @@ hyper_mode < escape ; default
 # # change focus between external displays (left and right)
 # alt - s: yabai -m display --focus west
 # alt - g: yabai -m display --focus east
-#
-# # Modifying the Layout
-#
-# # rotate layout clockwise
+
+# Modifying the Layout
+hyper - n: yabai -m config layout stack
+hyper - m: yabai -m config layout bsp 
+
+# rotate layout clockwise
 # shift + alt - r: yabai -m space --rotate 270
-#
-# # flip along y-axis
+
+# flip along y-axis
 # shift + alt - y: yabai -m space --mirror y-axis
 
 # # flip along x-axis
@@ -39,14 +41,15 @@ hyper_mode < cmd + alt - b: yabai -m config layout bsp ; skhd -k "escape"
 
 # toggle window float
 hyper_mode < cmd + alt - t: yabai -m window --toggle float --grid 4:4:1:1:2:2 ; skhd -k "escape"
+hyper - t: yabai -m window --toggle float --grid 4:4:1:1:2:2 ; skhd -k "escape"
 
 # # Modifying Window Size
 
 # # maximize a window
 # shift + alt - m: yabai -m window --toggle zoom-fullscreen
 
-# # balance out tree of windows (resize to occupy same area)
-# shift + alt - e: yabai -m space --balance
+# balance out tree of windows (resize to occupy same area)
+hyper - e: yabai -m space --balance
 
 # # Moving Windows Around
 

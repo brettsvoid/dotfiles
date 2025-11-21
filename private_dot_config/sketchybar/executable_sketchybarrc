@@ -2,6 +2,8 @@ source "$HOME/.config/config.sh"
 source "$HOME/.config/colors.sh" 
 source "$HOME/.config/icons.sh" 
 
+source "$CONFIG_DIR/env.sh"
+
 ITEM_DIR="$CONFIG_DIR/items"     # Directory where the items are configured
 PLUGIN_DIR="$CONFIG_DIR/plugins" # Directory where all the plugin scripts are stored
 
@@ -301,10 +303,6 @@ sketchybar --add bracket status ip_address volume battery brew      \
            --set         status background.color=$COLOR_BACKGROUND  \
                                 background.border_color=$COLOR_BLUE
 
-# sketchybar --add bracket clock clock_date clock_time clock_spacer clock_icon \
-#            --set         clock background.color=$COLOR_BACKGROUND \
-#                                background.border_color=$COLOR_RED
-
 sketchybar --add item separator.r2 right                  \
            --set      separator.r2 padding_left=4         \
                                    padding_right=4        \
@@ -423,9 +421,32 @@ sketchybar --add item cpu.top right              \
            --add graph cpu.user right 75         \
            --set cpu.user "${cpu_user[@]}"
 
-sketchybar --add bracket cpu_graph cpu.top cpu.percent cpu.sys cpu.user   \
-           --set         cpu_graph background.color=$COLOR_BACKGROUND     \
+sketchybar --add bracket cpu_graph cpu.top cpu.percent cpu.sys cpu.user \
+           --set         cpu_graph background.color=$COLOR_BACKGROUND   \
                                    background.border_color=$COLOR_CYAN
+
+sketchybar --add item separator.r4 right                  \
+           --set      separator.r4 padding_left=4         \
+                                   padding_right=4        \
+                                   background.drawing=off \
+                                   icon.drawing=off       \
+                                   label.drawing=off
+
+#sketchybar --add item tyto_task right                             \
+#           --set      tyto_task script="$PLUGIN_DIR/tyto_current_task.py" \
+#                                update_freq=5                    \
+#                                padding_left=$PADDING             \
+#                                padding_right=$PADDING            \
+#                                background.border_width=0         \
+#                                background.height=24              \
+#                                icon=$ICON_SWAP                   \
+#                                icon.color=$COLOR_CYAN            \
+#                                label.color=$COLOR_CYAN
+#
+#sketchybar --add bracket tyto tyto_task                                     \
+#           --set         tyto background.color=$COLOR_BACKGROUND            \
+#                              background.border_color=$COLOR_MAGENTA_BRIGHT
+
 
 # source "$ITEM_DIR/timer.sh"
 

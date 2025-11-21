@@ -69,10 +69,11 @@ return {
 		{ "<leader>gs", "<cmd>FzfLua git_status<cr>", desc = "Status" },
 		{ "<leader>gB", "<cmd>FzfLua git_blame<cr>", desc = "Blame" },
 
+		{ "<leader>sc", "<cmd>FzfLua commands<cr>", desc = "[S]earch [C]ommands" },
 		{ "<leader>sh", "<cmd>FzfLua helptags<cr>", desc = "[S]earch [H]elp" },
 		{ "<leader>sk", "<cmd>FzfLua keymaps<cr>", desc = "[S]earch [K]eymaps" },
 		{ "<leader>sf", "<cmd>FzfLua files<cr>", desc = "[S]earch [F]iles" },
-		{ "<leader>ss", "<cmd>FzfLua builtin<cr>", desc = "[S]earch [S]elect Telescope" },
+		{ "<leader>ss", "<cmd>FzfLua builtin<cr>", desc = "[S]earch [S]elect" },
 		{ "<leader>sw", "<cmd>FzfLua grep<cr>", desc = "[S]earch current [W]ord" },
 		{ "<leader>sg", "<cmd>FzfLua live_grep<cr>", desc = "[S]earch by [G]rep" },
 		{ "<leader>sd", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "[S]earch [D]iagnostics" },

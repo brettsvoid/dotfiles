@@ -129,6 +129,7 @@ alias find="fd"
 # alias grep="rg" 
 # alias ps="procs"
 alias vim="nvim"
+alias v="nvim"
 # Use neovim for vimdiff
 alias vimdiff='nvim -d'
 
@@ -225,7 +226,7 @@ unset __conda_setup
 prepend_to_path "$(brew --prefix ruby)/bin"
 
 # Add rustup
-append_to_path "$(brew --prefix rustup)/bin"
+prepend_to_path "$(brew --prefix rustup)/bin"
 
 prepend_to_path "/opt/homebrew/opt/ccache/libexec"
 
@@ -325,3 +326,8 @@ alias factorio-status="aws ec2 describe-instances --profile factorio --region eu
 eval "$(zoxide init zsh)"
 
 
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/brett/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions

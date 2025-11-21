@@ -25,6 +25,7 @@ return {
 			sql = { "sql_formatter" },
 			toml = { "taplo" },
 			zsh = { "shfmt" },
+			rust = { "rustfmt" },
 			-- Conform can also run multiple formatters sequentially
 			python = { "isort", "black" },
 			-- Terraform/terragrunt

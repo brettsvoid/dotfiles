@@ -103,6 +103,7 @@ return { -- lspconfig
 
 				html = {},
 				cssls = {},
+			tailwindcss = {},
 
 				emmet_ls = {
 					filetypes = {

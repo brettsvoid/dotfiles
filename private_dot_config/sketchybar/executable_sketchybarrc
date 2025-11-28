@@ -2,7 +2,7 @@ source "$HOME/.config/config.sh"
 source "$HOME/.config/colors.sh" 
 source "$HOME/.config/icons.sh" 
 
-source "$CONFIG_DIR/env.sh"
+[ -f "$CONFIG_DIR/env.sh" ] && source "$CONFIG_DIR/env.sh"
 
 ITEM_DIR="$CONFIG_DIR/items"     # Directory where the items are configured
 PLUGIN_DIR="$CONFIG_DIR/plugins" # Directory where all the plugin scripts are stored
@@ -296,7 +296,7 @@ brew=(
   update_freq=600 # Set update frequency to 10 min
 )
 sketchybar --add item brew right \
-  --set brew "${brew[@]}"
+  --set brew "${brew[@]}" \
   --subscribe brew brew_update
 
 sketchybar --add bracket status ip_address volume battery brew      \

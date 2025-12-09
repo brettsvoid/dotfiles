@@ -23,6 +23,8 @@ hyper_mode < escape ; default
 # alt - g: yabai -m display --focus east
 
 # Modifying the Layout
+hyper_mode < cmd + alt - s: yabai -m config layout stack ; skhd -k "escape"
+hyper_mode < cmd + alt - b: yabai -m config layout bsp ; skhd -k "escape"
 hyper - n: yabai -m config layout stack
 hyper - m: yabai -m config layout bsp 
 
@@ -35,10 +37,6 @@ hyper - m: yabai -m config layout bsp
 # # flip along x-axis
 # shift + alt - x: yabai -m space --mirror x-axis
 
-
-hyper_mode < cmd + alt - s: yabai -m config layout stack ; skhd -k "escape"
-hyper_mode < cmd + alt - b: yabai -m config layout bsp ; skhd -k "escape"
-
 # toggle window float
 hyper_mode < cmd + alt - t: yabai -m window --toggle float --grid 4:4:1:1:2:2 ; skhd -k "escape"
 hyper - t: yabai -m window --toggle float --grid 4:4:1:1:2:2 ; skhd -k "escape"
@@ -46,7 +44,8 @@ hyper - t: yabai -m window --toggle float --grid 4:4:1:1:2:2 ; skhd -k "escape"
 # # Modifying Window Size
 
 # # maximize a window
-# shift + alt - m: yabai -m window --toggle zoom-fullscreen
+#hyper - f: yabai -m window --toggle zoom-fullscreen
+hyper - f: yabai -m window --grid 1:1:0:0:1:1
 
 # balance out tree of windows (resize to occupy same area)
 hyper - e: yabai -m space --balance
@@ -88,6 +87,9 @@ hyper - e: yabai -m space --balance
 hyper_mode < cmd + alt - q: yabai --stop-service ; terminal-notifier -title skhd -message "Stopping Yabai" ; skhd -k "escape"
 hyper_mode < cmd + alt - s: yabai --start-service ; terminal-notifier -title skhd -message "Starting Yabai" ; skhd -k "escape"
 hyper_mode < cmd + alt - r: yabai --restart-service ; terminal-notifier -title skhd -message "Restarting Yabai" ; skhd -k "escape"
+hyper - q: yabai --stop-service ; terminal-notifier -title skhd -message "Stopping Yabai" ; skhd -k "escape"
+hyper - s: yabai --start-service ; terminal-notifier -title skhd -message "Starting Yabai" ; skhd -k "escape"
+hyper - r: yabai --restart-service ; terminal-notifier -title skhd -message "Restarting Yabai" ; skhd -k "escape"
 
 # Example command to send a notification and test keys
 # terminal-notifier -title skhd -message "Restarting Yabai"

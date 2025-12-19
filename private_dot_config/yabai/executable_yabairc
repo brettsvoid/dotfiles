@@ -139,4 +139,11 @@ yabai -m signal --add event=window_destroyed action="sketchybar -m --trigger win
 # Auto-focus newly created windows
 yabai -m signal --add event=window_created action="yabai -m window \$YABAI_WINDOW_ID --focus"
 
+# Automatically save/restore window positions using display profiles
+# Mark dirty on move/resize, save on focus (after you finish arranging)
+yabai -m signal --add event=window_moved action="$current_dir/display_state_manager.sh mark_dirty"
+yabai -m signal --add event=window_resized action="$current_dir/display_state_manager.sh mark_dirty"
+yabai -m signal --add event=window_focused action="$current_dir/display_state_manager.sh save"
+yabai -m signal --add event=display_added action="$current_dir/display_state_manager.sh restore"
+
 echo "yabai configuration loaded..."

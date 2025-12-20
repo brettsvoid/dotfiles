@@ -4,7 +4,6 @@ source "$HOME/.config/icons.sh"
 
 [ -f "$CONFIG_DIR/env.sh" ] && source "$CONFIG_DIR/env.sh"
 
-ITEM_DIR="$CONFIG_DIR/items"     # Directory where the items are configured
 PLUGIN_DIR="$CONFIG_DIR/plugins" # Directory where all the plugin scripts are stored
 
 BATT_PERCENT="$(pmset -g batt | grep -Eo "\d+%" | cut -d% -f1)"
@@ -447,8 +446,6 @@ sketchybar --add item separator.r4 right                  \
 #           --set         tyto background.color=$COLOR_BACKGROUND            \
 #                              background.border_color=$COLOR_MAGENTA_BRIGHT
 
-
-# source "$ITEM_DIR/timer.sh"
 
 sketchybar --hotload on
 

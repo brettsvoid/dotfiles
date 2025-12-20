@@ -2,8 +2,6 @@
 
 source "$HOME/.config/colors.sh"
 
-brew update &> /dev/null
-
 COUNT="$(brew outdated | wc -l | tr -d ' ')"
 
 COLOR=$COLOR_RED

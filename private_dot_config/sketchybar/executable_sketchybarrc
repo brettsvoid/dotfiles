@@ -293,6 +293,7 @@ brew=(
 
   script="$PLUGIN_DIR/brew.sh"
   update_freq=600 # Set update frequency to 10 min
+  updates=on
 )
 sketchybar --add item brew right \
   --set brew "${brew[@]}" \

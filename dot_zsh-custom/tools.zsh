@@ -22,3 +22,8 @@ if [[ -d "$HOME/.docker/completions" ]]; then
     autoload -Uz compinit
     compinit
 fi
+
+# tmuxinator
+if command -v tmuxinator &>/dev/null; then
+    alias mux="tmuxinator"
+fi

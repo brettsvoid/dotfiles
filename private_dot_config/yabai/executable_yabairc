@@ -16,7 +16,8 @@ yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
 # This is the recommended setup for using the Raycast yabai extension
-yabai -m signal --add event=space_changed action="nohup open -g raycast://extensions/krzysztoff1/yabai/screens-menu-bar?launchType=background > /dev/null 2>&1 &"
+# Commented out - not needed
+# yabai -m signal --add event=space_changed action="nohup open -g raycast://extensions/krzysztoff1/yabai/screens-menu-bar?launchType=background > /dev/null 2>&1 &"
 
 #------------------------------------------------------------------------------
 #                              Excluded apps
@@ -134,5 +135,15 @@ yabai -m config layout stack
 
 yabai -m signal --add event=window_created action="sketchybar -m --trigger window_change &> /dev/null"
 yabai -m signal --add event=window_destroyed action="sketchybar -m --trigger window_change &> /dev/null"
+
+# Auto-focus newly created windows
+yabai -m signal --add event=window_created action="yabai -m window \$YABAI_WINDOW_ID --focus"
+
+# Automatically save/restore window positions using display profiles
+# Mark dirty on move/resize, save on focus (after you finish arranging)
+yabai -m signal --add event=window_moved action="$current_dir/display_state_manager.sh mark_dirty"
+yabai -m signal --add event=window_resized action="$current_dir/display_state_manager.sh mark_dirty"
+yabai -m signal --add event=window_focused action="$current_dir/display_state_manager.sh save"
+yabai -m signal --add event=display_added action="$current_dir/display_state_manager.sh restore"
 
 echo "yabai configuration loaded..."

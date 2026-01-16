@@ -215,42 +215,8 @@ prepend_to_path "$(brew --prefix rustup)/bin"
 
 prepend_to_path "/opt/homebrew/opt/ccache/libexec"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-# Psql
-prepend_to_path "$(brew --prefix libpq)/bin"
-
-# Call 'nvm use' automatically in a directory with a .nvmrc file
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use
-    fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
-
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# Path mutation needed for lunarvim
-prepend_to_path "$HOME/.local/bin"
-
-alias lvim='nvim-lunarvim' # LunarVim
+# fnm (Fast Node Manager)
+eval "$(fnm env --use-on-cd)"
 
 # Set up fzf to read terminal history
 source <(fzf --zsh)
@@ -262,7 +228,6 @@ setopt appendhistory
 
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
-
 
 # Yazi wrapper to allow changing working directory when exiting yazi
 # https://yazi-rs.github.io/docs/quick-start
@@ -293,20 +258,30 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/homebrew/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+
+export CONDA_BASE="/opt/homebrew/anaconda3"
+
+conda() {
+  unset -f conda
+
+  # >>> conda initialize >>>
+  # !! Contents within this block are managed by 'conda init' !!
+  __conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+  if [ $? -eq 0 ]; then
+      eval "$__conda_setup"
+  else
+      if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
+	  . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+      else
+	  export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+      fi
+  fi
+  unset __conda_setup
+  # <<< conda initialize <<<
+
+  conda "$@"
+}
+
 
 alias download_website='wget --mirror -p --convert-links --no-parent'
 

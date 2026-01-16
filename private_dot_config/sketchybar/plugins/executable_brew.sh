@@ -1,8 +1,14 @@
 #!/usr/bin/env sh
 
-source "$HOME/.config/colors.sh"
+# Set Homebrew environment variables to avoid CPU detection issues
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_INSTALL_CLEANUP=1
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_MAKE_JOBS=4
+export HOMEBREW_CURL_RETRIES=0
+export HOMEBREW_DOWNLOAD_CONCURRENCY=1
 
-brew update &> /dev/null
+source "$HOME/.config/colors.sh"
 
 COUNT="$(brew outdated | wc -l | tr -d ' ')"
 

@@ -67,6 +67,10 @@ plugins=(
     zsh-syntax-highlighting
 )
 
+# Source private environment variables (not in version control)
+# Must be before oh-my-zsh so ZSH_CUSTOM scripts can use them
+[ -f ~/.env_vars ] && source ~/.env_vars
+
 source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -80,6 +84,3 @@ setopt appendhistory
 
 # Shell options
 setopt noautomenu
-
-# Source private environment variables (not in version control)
-[ -f ~/.env_vars ] && source ~/.env_vars

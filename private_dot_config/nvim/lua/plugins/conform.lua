@@ -1,4 +1,42 @@
 -- Autoformat
+
+-- Helper function to find config file by searching upwards from buffer directory
+local function has_config(bufnr, config_files)
+	local found = vim.fs.find(config_files, {
+		upward = true,
+		path = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr)),
+		stop = vim.env.HOME,
+	})
+	return #found > 0
+end
+
+-- Helper function to select Biome or Prettier based on project config
+local function get_web_formatter(bufnr)
+	-- Biome takes precedence if biome.json exists
+	if has_config(bufnr, { "biome.json", "biome.jsonc" }) then
+		return { "biome" }
+	end
+	-- Fall back to prettier if prettier config exists
+	if
+		has_config(bufnr, {
+			".prettierrc",
+			".prettierrc.json",
+			".prettierrc.yaml",
+			".prettierrc.yml",
+			".prettierrc.js",
+			".prettierrc.cjs",
+			".prettierrc.mjs",
+			"prettier.config.js",
+			"prettier.config.cjs",
+			"prettier.config.mjs",
+		})
+	then
+		return { "prettier" }
+	end
+	-- No config found - use LSP fallback
+	return {}
+end
+
 return {
 	"stevearc/conform.nvim",
 	event = { "BufWritePre" },
@@ -45,16 +83,18 @@ return {
 			-- typescript = { "prettierd", "prettier", stop_after_first = true },
 			-- typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 			-- yaml = { "prettierd", "prettier", stop_after_first = true },
+			-- Dynamic Biome/Prettier selection based on project config
+			javascript = get_web_formatter,
+			javascriptreact = get_web_formatter,
+			typescript = get_web_formatter,
+			typescriptreact = get_web_formatter,
+			json = get_web_formatter,
+			jsonc = get_web_formatter,
+			-- Static prettier for formats Biome doesn't support
 			css = { "prettier" },
 			html = { "prettier" },
-			javascript = { "prettier" },
-			javascriptreact = { "prettier" },
-			json = { "prettier" },
-			jsonc = { "prettier" },
 			markdown = { "prettier" },
 			scss = { "prettier" },
-			typescript = { "prettier" },
-			typescriptreact = { "prettier" },
 			yaml = { "prettier" },
 
 			go = { "gofumpt", "goimports_reviser", "golines" },

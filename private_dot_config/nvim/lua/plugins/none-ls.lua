@@ -12,21 +12,6 @@ return {
 				require("none-ls.diagnostics.eslint"),
 			},
 		})
-		opts.sources = vim.list_extend(opts.sources or {}, {
-			builtins.formatting.biome,
-
-			-- or if you like to live dangerously like me:
-			builtins.formatting.biome.with({
-				args = {
-					"check",
-					"--apply-unsafe",
-					"--formatter-enabled=true",
-					"--organize-imports-enabled=true",
-					"--skip-errors",
-					"$FILENAME",
-				},
-			}),
-		})
 
 		-- Go options
 		opts.sources = vim.list_extend(opts.sources or {}, {

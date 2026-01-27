@@ -2,7 +2,7 @@
 
 # fnm (Fast Node Manager)
 if command -v fnm &>/dev/null; then
-    eval "$(fnm env --use-on-cd)"
+    zsh-defer eval "$(fnm env --use-on-cd)"
 else
     echo "[zsh] fnm not found. Install with: brew install fnm"
 fi

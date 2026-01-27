@@ -63,6 +63,7 @@ plugins=(
     chezmoi
     git
     python
+    zsh-defer
     zsh-autosuggestions
     zsh-syntax-highlighting
 )

@@ -17,3 +17,8 @@
     clone.args = ["--depth", "1"]
     pull.args = ["--ff-only"]
     refreshPeriod = "168h"  # 1 week
+
+[".zsh-custom/plugins/zsh-defer"]
+     type = "git-repo"
+     url = "https://github.com/romkatv/zsh-defer.git"
+     refreshPeriod = "168h" # 1 week

@@ -1,8 +1,8 @@
 # Aliases
 
 # Modern CLI tool replacements
-alias cat="bat"
-alias find="fd"
+# alias cat="bat"
+# alias find="fd"
 # alias grep="rg"
 # alias ps="procs"
 alias vim="nvim"

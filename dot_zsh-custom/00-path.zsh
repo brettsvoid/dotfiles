@@ -52,6 +52,9 @@ case ":$PATH:" in
   *) prepend_to_path "$PNPM_HOME" ;;
 esac
 
+# GHCup (Haskell)
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+
 # LunarVim / local bin
 prepend_to_path "$HOME/.local/bin"
 

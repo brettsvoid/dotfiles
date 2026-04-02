@@ -43,6 +43,9 @@ return { -- lspconfig
 			-- - settings (table): Override the default settings passed when initializing the server.
 			--       For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
+				hls = {
+					filetypes = { "haskell", "lhaskell", "cabal" },
+				},
 				biome = {},
 				pyright = {
 					on_attach = function(client)
@@ -347,6 +350,12 @@ return { -- lspconfig
 					end,
 				},
 			})
+
+			-- Haskell Language Server (installed via GHCup, not Mason)
+			local hls_config = servers.hls or {}
+			hls_config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, hls_config.capabilities or {})
+			hls_config.handlers = handlers
+			lspconfig.hls.setup(hls_config)
 
 			-- Add border to the diagnostic popup window
 			vim.diagnostic.config({

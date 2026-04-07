@@ -9,11 +9,16 @@ source "$HOME/.config/config.sh"
 current_dir="$(dirname "$0")"
 source "$current_dir/yabai_env.sh"
 
+# Clean up signals and rules to prevent duplicates on restart
+yabai -m signal --remove-all
+yabai -m rule --remove-all
+
 # This command is the one that loads the scripting addition
 # Configure your user to execute `yabai --load-sa` as the root user without having to enter a password.
 #  https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#configure-scripting-addition
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
+yabai -m signal --add event=system_woke action="sudo yabai --load-sa"
 
 # This is the recommended setup for using the Raycast yabai extension
 # Commented out - not needed
@@ -136,14 +141,15 @@ yabai -m config layout stack
 yabai -m signal --add event=window_created action="sketchybar -m --trigger window_change &> /dev/null"
 yabai -m signal --add event=window_destroyed action="sketchybar -m --trigger window_change &> /dev/null"
 
-# Auto-focus newly created windows
-yabai -m signal --add event=window_created action="yabai -m window \$YABAI_WINDOW_ID --focus"
+# Auto-focus newly created windows (exclude hybrid apps — handled in yabai_float_window.sh)
+yabai -m signal --add event=window_created app!="${apps_mgoff_hybrid}" action="yabai -m window \$YABAI_WINDOW_ID --focus"
 
 # Automatically save/restore window positions using display profiles
-# Mark dirty on move/resize, save on focus (after you finish arranging)
-yabai -m signal --add event=window_moved action="$current_dir/display_state_manager.sh mark_dirty"
-yabai -m signal --add event=window_resized action="$current_dir/display_state_manager.sh mark_dirty"
-yabai -m signal --add event=window_focused action="$current_dir/display_state_manager.sh save"
-yabai -m signal --add event=display_added action="$current_dir/display_state_manager.sh restore"
+# Mark dirty on move/resize (inlined to avoid spawning bash on high-frequency events)
+yabai -m signal --add event=window_moved action="touch /tmp/yabai_dirty_flag"
+yabai -m signal --add event=window_resized action="touch /tmp/yabai_dirty_flag"
+# Background save/restore so they don't block yabai's event queue
+yabai -m signal --add event=window_focused action="$current_dir/display_state_manager.sh save &"
+yabai -m signal --add event=display_added action="$current_dir/display_state_manager.sh restore &"
 
 echo "yabai configuration loaded..."

@@ -12,15 +12,18 @@ get_profile_key() {
     yabai -m query --displays | jq -r '[.[].uuid] | sort | join("-")' | md5
 }
 
-# Set dirty flag (called by window_moved and window_resized)
-mark_dirty() {
-    touch "$DIRTY_FLAG"
-}
-
 # Save state for current display profile (called by window_focused if dirty)
 save_state() {
     # Only save if dirty flag is set
     if [[ ! -f "$DIRTY_FLAG" ]]; then
+        return
+    fi
+
+    # Debounce: if another save fires within 0.3s, let it take over
+    local debounce_file="/tmp/yabai_save_debounce"
+    echo $$ > "$debounce_file"
+    sleep 0.3
+    if [[ "$(cat "$debounce_file" 2>/dev/null)" != "$$" ]]; then
         return
     fi
 
@@ -119,9 +122,6 @@ restore_state() {
 }
 
 case "$1" in
-    mark_dirty)
-        mark_dirty
-        ;;
     save)
         save_state
         ;;
@@ -129,7 +129,7 @@ case "$1" in
         restore_state
         ;;
     *)
-        echo "Usage: $0 {mark_dirty|save|restore}"
+        echo "Usage: $0 {save|restore}"
         exit 1
         ;;
 esac

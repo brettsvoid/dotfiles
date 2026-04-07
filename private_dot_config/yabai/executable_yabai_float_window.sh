@@ -15,3 +15,6 @@ then
     yabai -m window "${YABAI_WINDOW_ID}" --toggle float
 fi
 
+# Always focus the new window (hybrid apps are excluded from the general auto-focus signal)
+yabai -m window "${YABAI_WINDOW_ID}" --focus
+

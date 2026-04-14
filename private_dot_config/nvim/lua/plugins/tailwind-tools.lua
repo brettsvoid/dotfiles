@@ -11,6 +11,9 @@ return {
 		},
 		---@type TailwindTools.Option
 		opts = {
+			server = {
+				override = false, -- Don't use deprecated lspconfig setup; tailwindcss is configured via lsp/tailwindcss.lua
+			},
 			extension = {
 				queries = { "typescriptreact" },
 				patterns = {

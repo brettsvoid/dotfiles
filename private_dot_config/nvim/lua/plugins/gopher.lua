@@ -5,7 +5,7 @@ return {
 	-- branch = "develop"
 	-- (optional) will update plugin's deps on every update
 	build = function()
-		vim.cmd.GoInstallDeps()
+		require("gopher.installer").install_deps({ sync = true })
 	end,
 	---@type gopher.Config
 	opts = {},

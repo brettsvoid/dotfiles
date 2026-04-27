@@ -22,3 +22,5 @@ export CONDA_BASE="/opt/homebrew/anaconda3"
 # Claude Sentry MCP
 export SENTRY_ACCESS_TOKEN_CLAUDE="$(bws secret get 59d40097-f5d2-4fd3-bc0d-b3d400f0a9f8 --access-token $BWS_ACCESS_TOKEN 2>/dev/null | jq -r '.value')"
 export SENTRY_ACCESS_TOKEN_MCP="$SENTRY_ACCESS_TOKEN_CLAUDE"
+export SENTRY_AUTH_TOKEN="$(bws secret get a989a33a-ba80-4b35-a7a6-b43501105747 --access-token $BWS_ACCESS_TOKEN 2>/dev/null | jq -r '.value')"
+

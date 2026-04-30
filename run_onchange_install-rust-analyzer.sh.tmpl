@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Re-run when the set of installed rustup toolchains changes:
+# {{ output "rustup" "toolchain" "list" | sha256sum }}
+set -euo pipefail
+
+command -v rustup >/dev/null || { echo "rustup not installed; skipping"; exit 0; }
+
+rustup toolchain list | awk '{print $1}' | while read -r tc; do
+  [ -z "$tc" ] && continue
+  rustup component add rust-analyzer --toolchain "$tc"
+done

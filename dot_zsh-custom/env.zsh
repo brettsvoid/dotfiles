@@ -29,3 +29,6 @@ export SENTRY_ACCESS_TOKEN_CLAUDE="$(bws secret get 59d40097-f5d2-4fd3-bc0d-b3d4
 export SENTRY_ACCESS_TOKEN_MCP="$SENTRY_ACCESS_TOKEN_CLAUDE"
 export SENTRY_AUTH_TOKEN="$(bws secret get a989a33a-ba80-4b35-a7a6-b43501105747 --access-token $BWS_ACCESS_TOKEN 2>/dev/null | jq -r '.value')"
 
+# Claude Grafana Access (tyto)
+export GRAFANA_TOKEN_TYTO_CLAUDE_MCP="$(bws secret get cf5d5904-b72e-4abf-be6c-b43c009bcc22 --access-token $BWS_ACCESS_TOKEN 2>/dev/null | jq -r '.value')"
+export GRAFANA_SERVICE_ACCOUNT_TOKEN_MCP="$GRAFANA_TOKEN_TYTO_CLAUDE_MCP"

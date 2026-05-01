@@ -32,3 +32,10 @@ export SENTRY_AUTH_TOKEN="$(bws secret get a989a33a-ba80-4b35-a7a6-b43501105747 
 # Claude Grafana Access (tyto)
 export GRAFANA_TOKEN_TYTO_CLAUDE_MCP="$(bws secret get cf5d5904-b72e-4abf-be6c-b43c009bcc22 --access-token $BWS_ACCESS_TOKEN 2>/dev/null | jq -r '.value')"
 export GRAFANA_SERVICE_ACCOUNT_TOKEN_MCP="$GRAFANA_TOKEN_TYTO_CLAUDE_MCP"
+
+# Claude Nomad Access (tyto)
+export NOMAD_ADDR="http://54.242.249.179:4646"
+export NOMAD_OPERATOR_TOKEN="$(bws secret get 5536b6b7-3e62-469f-b3e2-b43c00fb0d05 --access-token $BWS_ACCESS_TOKEN 2>/dev/null | jq -r '.value')"
+export NOMAD_TOKEN="$NOMAD_OPERATOR_TOKEN"
+
+

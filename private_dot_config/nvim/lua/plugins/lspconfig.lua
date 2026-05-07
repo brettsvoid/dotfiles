@@ -19,6 +19,9 @@ return { -- lspconfig
 			-- Enable HLS (installed via GHCup, not Mason)
 			vim.lsp.enable("hls")
 
+			-- Enable nixd (installed via Homebrew, not Mason)
+			vim.lsp.enable("nixd")
+
 			vim.filetype.add({
 				extension = {
 					tf = "terraform",

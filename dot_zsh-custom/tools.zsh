@@ -27,3 +27,7 @@ fi
 if command -v tmuxinator &>/dev/null; then
     alias mux="tmuxinator"
 fi
+
+# Nix (multi-user / daemon install)
+[ -s "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ] && \
+    source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
